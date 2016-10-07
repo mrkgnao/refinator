@@ -1,0 +1,9 @@
+{% if ref_list %}
+    <ul>
+    {% for ref in ref_list %}
+	<li><a href="{% url 'refinator:detail' ref.id %}">{{ ref.ref_name }}</a></li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No references are available.</p>
+{% endif %}

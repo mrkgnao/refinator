@@ -1,0 +1,39 @@
+<h1>{{ ref.ref_name }}</h1>
+<a href="{{ ref.url }}">Download</a> ({{ ref.size }} KB {{ ref.filetype }})
+
+{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+
+<table>
+    <tr>
+        <td>Author</td>
+        <td>{{ ref.author }}</td>
+    </tr>
+
+    <tr>
+        <td>Filetype</td>
+        <td>{{ ref.filetype }}</td>
+    </tr>
+
+    <tr>
+        <td>Votes</td>
+        <td>{{ ref.votes }}</td>
+    </tr>
+
+    <tr>
+        <td> </td>
+        <td> </td>
+    </tr>
+</table>
+
+<h2>Comments</h2>
+<ul>
+{% for comment in ref.comment_set.all %}
+    <li>{{ comment.comment_text }}</li>
+{% endfor %}
+</ul>
+
+
+<form action="{% url 'refinator:vote' ref.id %}" method="post">
+{% csrf_token %}
+<input type="submit" value="Vote" />
+</form>
