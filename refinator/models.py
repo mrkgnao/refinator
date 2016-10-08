@@ -27,6 +27,8 @@ class Reference(models.Model):
     votes    = models.IntegerField(default=1)
     tags     = models.ManyToManyField(Tag)
 
+    added_date = models.DateField(auto_now_add=True)
+
     desc = models.CharField(max_length=5000, default="")
 
     prereqs    = models.ManyToManyField("self", related_name="prereq_for", blank=True)
@@ -46,6 +48,8 @@ class Reference(models.Model):
 
 class Comment(models.Model):
     comment_text = models.CharField(max_length=5000)
+    speaker = models.CharField(max_length=200)
+    created_date = models.DateTimeField(auto_now_add=True)
     reference = models.ForeignKey(Reference, on_delete=models.CASCADE)
 
     def __str__(self):

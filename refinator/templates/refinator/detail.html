@@ -3,27 +3,38 @@
 {% block body %}
 
 {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
-
-<div class="col-md-8" style="border-right: 1px solid #ccc">
+<div class="col-md-12">
     <h1>{{ ref.ref_name }}</h1>
     <h4>{{ ref.author }}</h4>
+    <hr>
+</div>
 
+<div class="col-md-8">
     <div class="ref-desc">
-        {{ ref.desc }}
+        <blockquote class="blockquote">
+            {{ ref.desc }}
+        </blockquote>
     </div>
 
     <h3>Comments</h3>
-    <ul>
+    <ul class="">
         {% for comment in ref.comment_set.all %}
-        <li>{{ comment.comment_text }}</li>
+        <li class="">
+            <p class="m-b-0">
+                {{ comment.comment_text }}
+            </p>
+            <footer class="blockquote-footer">
+                {{ comment.speaker }}
+            </footer>
+        </li>
         {% endfor %}
     </ul>
 
     <h4>Related books</h4>
 
-    <table class="table table-borderless">
+    <table class="table table-borderless" id="related-books">
         <tr>
-            <th>Prerequisites </th>
+            <th class="padded-lg">Prereqs</th>
             <td>
                 {% if ref.prereqs %}
                 <ul class="list-group">
@@ -37,29 +48,28 @@
                 {% endif %}
             </td>
         </tr>
-
         <tr>
-
-            <th>Read with</th>
+            <th class="padded-lg">Read with</th>
             <td>
                 {% if ref.read_with %}
                 <ul class="list-group">
                     {% for f in ref.read_with.iterator %}
+
                     <li class="list-group-item"><a href="{% url 'refinator:detail' f.id %}">{{ f.ref_name }}</a></li>
                     {% endfor %}
                 </ul>
                 {% else %}
                 No prereqs, yay
                 {% endif %}
-
             </td>
         </tr>
         <tr>
-            <th>Follow up with</th>
+            <th class="padded-lg">Followups</th>
             <td>
                 {% if ref.followups %}
                 <ul class="list-group">
                     {% for f in ref.followups.iterator %}
+
                     <li class="list-group-item"><a href="{% url 'refinator:detail' f.id %}">{{ f.ref_name }}</a></li>
                     {% endfor %}
                 </ul>
@@ -68,23 +78,27 @@
                 {% endif %}
             </td>
         </tr>
+
     </table>
 
 
 </div>
 
 <div class="col-md-4">
-    <center>
-        <a class="btn btn-primary" href="{{ ref.url }}">
-            <span class="fa fa-cloud-download" aria-hidden="true"></span>
-            download ({{ ref.size|filesizeformat }} {{ ref.filetype }})
-        </a>
 
-    </center>
-    <br>
-
-    <table class="table">
+    <table class="table table-borderless">
         <tbody>
+            <tr>
+                <th class="vertical-center">
+                    Download
+                </th>
+                <td>
+                    <a class="btn btn-primary" href="{{ ref.url }}">
+                        <span class="fa fa-cloud-download fa-lg" aria-hidden="true"> </span>
+                        ({{ ref.size|filesizeformat }} {{ ref.filetype }})
+                    </a>
+                </td>
+            </tr>
             <tr>
                 <th>Tags</th>
                 <td>
@@ -94,9 +108,19 @@
                     {% endfor %}
                 </td>
             </tr>
-
             <tr>
-                <th>Votes</th>
+                <th>
+                    Added
+                </th>
+
+                <td>
+                    {{ ref.added_date }}
+                </td>
+            </tr>
+            <tr>
+                <th class="vertical-center">
+                    Votes
+                </th>
                 <td>
 
                     <div class="btn-group">
@@ -130,6 +154,7 @@
 
      function voteClick(event) {
          var voteLink, itemId;
+         var voteLabel = document.getElementById('vote-count');
 
          // Regardless of the below, we handle the event, so "consume" it
          event.stopPropagation();
@@ -168,17 +193,17 @@
          // Called when the POST is successful
          function votePostSuccess(response) {
              // The POST worked
+             var delta = 0;
              voteLink.removeClass('inprogress');
 
-             // Did things work on the server?
-             if (response === "ok") { // Or whatever
-                 // Yes, the vote was successfully recorded
-                 voteLink.addClass('done');
-                 if (voteType === 'up') {}
+             voteLink.addClass('done');
+             if (voteType === 'up') {
+                 delta = 1;
+             } else {
+                 delta = -1;
              }
-             else {
-                 // Report an error to the user, the server couldn't record the vote
-             }
+
+             voteLabel.innerText = delta + parseInt(voteLabel.innerText);
          }
 
          // Called when the POST fails for some reason (HTTP errors)
