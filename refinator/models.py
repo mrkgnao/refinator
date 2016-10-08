@@ -1,10 +1,22 @@
 from django.db import models
+import re
+import requests
 
-class RefTag(models.Model):
+class Tag(models.Model):
     tag_name = models.CharField(max_length=100)
+    tag_slug = models.CharField(max_length=100)
+
+    def set_slug(self):
+        self.tag_slug = re.sub(r"\s+", '-', self.tag_name).lower()
+
+    def save(self, *args, **kwargs):
+        self.set_slug()
+        super(Tag, self).save(*args, **kwargs)
+
 
     def __str__(self):
-        return self.tag_name
+        self.set_slug()
+        return self.tag_slug
 
 class Reference(models.Model):
     ref_name = models.CharField(max_length=200)
@@ -13,9 +25,18 @@ class Reference(models.Model):
     size     = models.IntegerField(default=0)
     author   = models.CharField(max_length=20)
     votes    = models.IntegerField(default=1)
+    tags     = models.ManyToManyField(Tag)
 
     def __str__(self):
         return "\"{}\" by {}".format(self.ref_name, self.author)
+
+    def get_and_save_size(self):
+        r = requests.head(self.url, headers={'Accept-Encoding': 'identity'})
+        self.size = int(r.headers['content-length'])
+
+    def save(self, *args, **kwargs):
+        self.get_and_save_size()
+        super(Reference, self).save(*args, **kwargs)
 
 class Comment(models.Model):
     comment_text = models.CharField(max_length=5000)
