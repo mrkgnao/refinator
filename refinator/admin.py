@@ -20,6 +20,9 @@ class ReferenceAdmin(admin.ModelAdmin):
             (None, {
                 'fields': ['ref_name', 'author']
                 }),
+            ('Related books', {
+                'fields': ['prereqs', 'read_with', 'followups']
+            }),
             ('File metadata', {
                 'fields': ['url', 'filetype']
                 }),

@@ -13,6 +13,39 @@
     <li>{{ comment.comment_text }}</li>
 {% endfor %}
 </ul>
+
+<div>
+<div>
+    <h3>Prerequisites </h3>
+<ul>
+{% if ref.prereqs %}
+{% for f in ref.prereqs.iterator %}
+        <li><a href="{% url 'refinator:detail' f.id %}">{{ f.ref_name }}</a></li>
+{% endfor %}
+{% else %}
+No prereqs, yay
+{% endif %}
+</ul>
+</div>
+<div>
+
+    <h3>Read with</h3>
+<ul>
+{% for f in ref.read_with.iterator %}
+        <li><a href="{% url 'refinator:detail' f.id %}">{{ f.ref_name }}</a></li>
+{% endfor %}
+</ul>
+</div>
+<div>
+    <h3>Follow up with</h3>
+<ul>
+{% for f in ref.followups.iterator %}
+        <li><a href="{% url 'refinator:detail' f.id %}">{{ f.ref_name }}</a></li>
+{% endfor %}
+</ul>
+</div>
+</div>
+
 </div>
 
 <div class="col-md-4">

@@ -27,8 +27,12 @@ class Reference(models.Model):
     votes    = models.IntegerField(default=1)
     tags     = models.ManyToManyField(Tag)
 
+    prereqs    = models.ManyToManyField("self", related_name="prereq_for", null=True, blank=True)
+    read_with  = models.ManyToManyField("self", related_name="read_with_for", null=True, blank=True)
+    followups  = models.ManyToManyField("self", related_name="followup_for", null=True, blank=True)
+
     def __str__(self):
-        return "\"{}\" by {}".format(self.ref_name, self.author)
+        return "{} ({})".format(self.ref_name, self.author)
 
     def get_and_save_size(self):
         r = requests.head(self.url, headers={'Accept-Encoding': 'identity'})
