@@ -8,6 +8,8 @@ from refinator.models import Reference, Comment
 def ref_index(request):
     ref_list = Reference.objects.order_by("ref_name")
     context = {'ref_list': ref_list}
+    if request.user:
+        context['user'] = request.user
     return render(request, 'refinator/index.html', context)
 
 def ref_detail(request, ref_id):

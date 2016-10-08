@@ -31,14 +31,14 @@ DEBUG = True
 # Application definition
 
 INSTALLED_APPS = (
-    'django.contrib.admin',
+    'refinator',
+    'django_mathjax',
     'django.contrib.auth',
+    'django.contrib.admin',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'django_mathjax',
-    'refinator',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -57,7 +57,10 @@ ROOT_URLCONF = 'refinatorproj.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [
+            'refinator/templates/refinator',
+            'refinator/templates/registration',
+            ],
         'APP_DIRS': True,
         'OPTIONS': {
             'debug': True,
@@ -147,3 +150,5 @@ MATHJAX_CONFIG_DATA = {
       ]
   }
 }
+
+LOGIN_REDIRECT_URL = '/'
