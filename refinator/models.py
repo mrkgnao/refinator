@@ -27,9 +27,11 @@ class Reference(models.Model):
     votes    = models.IntegerField(default=1)
     tags     = models.ManyToManyField(Tag)
 
-    prereqs    = models.ManyToManyField("self", related_name="prereq_for", null=True, blank=True)
-    read_with  = models.ManyToManyField("self", related_name="read_with_for", null=True, blank=True)
-    followups  = models.ManyToManyField("self", related_name="followup_for", null=True, blank=True)
+    desc = models.CharField(max_length=5000, default="")
+
+    prereqs    = models.ManyToManyField("self", related_name="prereq_for", blank=True)
+    read_with  = models.ManyToManyField("self", related_name="read_with_for", blank=True)
+    followups  = models.ManyToManyField("self", related_name="followup_for", blank=True)
 
     def __str__(self):
         return "{} ({})".format(self.ref_name, self.author)

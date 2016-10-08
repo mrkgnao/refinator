@@ -2,88 +2,195 @@
 
 {% block body %}
 
-<div class="col-md-8 inline-headers">
-<span class="h1 pull-left">{{ ref.ref_name }}  </span>
-<a class="btn btn-outline-primary" href="{{ ref.url }}">download ({{ ref.size|filesizeformat }} {{ ref.filetype }})</a>
-
 {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
-<h2>Comments</h2>
-<ul>
-{% for comment in ref.comment_set.all %}
-    <li>{{ comment.comment_text }}</li>
-{% endfor %}
-</ul>
 
-<div>
-<div>
-    <h3>Prerequisites </h3>
-<ul>
-{% if ref.prereqs %}
-{% for f in ref.prereqs.iterator %}
-        <li><a href="{% url 'refinator:detail' f.id %}">{{ f.ref_name }}</a></li>
-{% endfor %}
-{% else %}
-No prereqs, yay
-{% endif %}
-</ul>
-</div>
-<div>
+<div class="col-md-8" style="border-right: 1px solid #ccc">
+    <h1>{{ ref.ref_name }}</h1>
+    <h4>{{ ref.author }}</h4>
 
-    <h3>Read with</h3>
-<ul>
-{% for f in ref.read_with.iterator %}
-        <li><a href="{% url 'refinator:detail' f.id %}">{{ f.ref_name }}</a></li>
-{% endfor %}
-</ul>
-</div>
-<div>
-    <h3>Follow up with</h3>
-<ul>
-{% for f in ref.followups.iterator %}
-        <li><a href="{% url 'refinator:detail' f.id %}">{{ f.ref_name }}</a></li>
-{% endfor %}
-</ul>
-</div>
-</div>
+    <div class="ref-desc">
+        {{ ref.desc }}
+    </div>
+
+    <h3>Comments</h3>
+    <ul>
+        {% for comment in ref.comment_set.all %}
+        <li>{{ comment.comment_text }}</li>
+        {% endfor %}
+    </ul>
+
+    <h4>Related books</h4>
+
+    <table class="table table-borderless">
+        <tr>
+            <th>Prerequisites </th>
+            <td>
+                {% if ref.prereqs %}
+                <ul class="list-group">
+                    {% for f in ref.prereqs.iterator %}
+
+                    <li class="list-group-item"><a href="{% url 'refinator:detail' f.id %}">{{ f.ref_name }}</a></li>
+                    {% endfor %}
+                </ul>
+                {% else %}
+                No prereqs, yay
+                {% endif %}
+            </td>
+        </tr>
+
+        <tr>
+
+            <th>Read with</th>
+            <td>
+                {% if ref.read_with %}
+                <ul class="list-group">
+                    {% for f in ref.read_with.iterator %}
+                    <li class="list-group-item"><a href="{% url 'refinator:detail' f.id %}">{{ f.ref_name }}</a></li>
+                    {% endfor %}
+                </ul>
+                {% else %}
+                No prereqs, yay
+                {% endif %}
+
+            </td>
+        </tr>
+        <tr>
+            <th>Follow up with</th>
+            <td>
+                {% if ref.followups %}
+                <ul class="list-group">
+                    {% for f in ref.followups.iterator %}
+                    <li class="list-group-item"><a href="{% url 'refinator:detail' f.id %}">{{ f.ref_name }}</a></li>
+                    {% endfor %}
+                </ul>
+                {% else %}
+                No prereqs, yay
+                {% endif %}
+            </td>
+        </tr>
+    </table>
+
 
 </div>
 
 <div class="col-md-4">
-<h6>Tags</h6>
-{% for tag in ref.tags.iterator %}
-    <!-- TODO link to tag -->
-    <span class="tag tag-default">{{ tag.tag_name }}</span>
-{% endfor %}
-<table class="table">
-    <tr>
-        <td>Author</td>
-        <td>{{ ref.author }}</td>
-    </tr>
+    <center>
+        <a class="btn btn-primary" href="{{ ref.url }}">
+            <span class="fa fa-cloud-download" aria-hidden="true"></span>
+            download ({{ ref.size|filesizeformat }} {{ ref.filetype }})
+        </a>
 
-    <tr>
-        <td>Filetype</td>
-        <td>{{ ref.filetype }}</td>
-    </tr>
+    </center>
+    <br>
 
-    <tr>
-        <td>Votes</td>
-        <td>{{ ref.votes }}</td>
-    </tr>
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Tags</th>
+                <td>
+                    {% for tag in ref.tags.iterator %}
+                    <!-- TODO link to tag -->
+                    <span class="tag tag-default">{{ tag.tag_name }}</span>
+                    {% endfor %}
+                </td>
+            </tr>
 
-    <tr>
-        <td> </td>
-        <td> </td>
-    </tr>
-</table>
-<form action="{% url 'refinator:vote' ref.id %}" method="post">
-{% csrf_token %}
-    <button class="btn btn-primary" type="submit">
-        vote
-    </button>
-</form>
+            <tr>
+                <th>Votes</th>
+                <td>
+
+                    <div class="btn-group">
+                        <button class="btn btn-primary-outline vote vote-up">
+                            <span class="fa fa-thumbs-o-up" aria-hidden="true"></span>
+                        </button>
+
+                        <button class="btn btn-secondary" id="vote-count">
+                            {{ ref.votes }}
+                        </button>
+
+                        <button class="btn btn-primary-outline vote vote-down">
+                            <span class="fa fa-thumbs-o-down" aria-hidden="true"></span>
+                        </button>
+                    </div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
 </div>
 
+<div class="col-md-8"></div>
 
+
+<script type="text/javascript">
+ jQuery(function($) {
+
+     // Hook up our vote handlers
+     $("button.vote").on('click', voteClick);
+
+     function voteClick(event) {
+         var voteLink, itemId;
+
+         // Regardless of the below, we handle the event, so "consume" it
+         event.stopPropagation();
+         event.preventDefault();
+
+         voteLink = $(this);
+
+         // See if the vote has already been done or is in progress
+         if (voteLink.hasClass('done') || voteLink.hasClass('inprogress')) {
+             // Ignore the click, possibly tell the user why
+             return;
+         }
+
+         // Get the vote type
+         voteType = voteLink.hasClass('vote-up') ? 'up' : 'down';
+
+         // Get its ID
+         itemId = {{ ref.id }};
+
+         // If we didn't get an ID...
+         if (!itemId) {
+             // ...report error
+             return;
+         }
+
+         // Mark "in progress" and initiate the vote; action continues
+         // in our callbacks below
+         voteLink.addClass('btn-disabled');
+         $.ajax({
+             url:     "/{{ ref.id }}/vote/" + voteType + "/",
+             type:    'POST',
+             success: votePostSuccess,
+             error:   votePostError
+         });
+
+         // Called when the POST is successful
+         function votePostSuccess(response) {
+             // The POST worked
+             voteLink.removeClass('inprogress');
+
+             // Did things work on the server?
+             if (response === "ok") { // Or whatever
+                 // Yes, the vote was successfully recorded
+                 voteLink.addClass('done');
+                 if (voteType === 'up') {}
+             }
+             else {
+                 // Report an error to the user, the server couldn't record the vote
+             }
+         }
+
+         // Called when the POST fails for some reason (HTTP errors)
+         function votePostError(xhr, statusText, err) {
+             // Not in progress anymore
+             voteLink.removeClass('inprogress');
+
+             // Report error to user
+         }
+     }
+ });
+</script>
 
 
 {% endblock %}

@@ -14,8 +14,11 @@ def detail(request, ref_id):
     ref = get_object_or_404(Reference, pk=ref_id)
     return render(request, 'refinator/detail.html', {'ref': ref})
 
-def vote(request, ref_id):
+def vote(request, ref_id, vote_type):
     ref = get_object_or_404(Reference, pk=ref_id)
-    ref.votes += 1
+    if vote_type == "up":
+        ref.votes += 1
+    else:
+        ref.votes -= 1
     ref.save()
     return HttpResponseRedirect(reverse('refinator:detail', args=(ref.id,)))

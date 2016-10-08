@@ -18,7 +18,7 @@ class TagAdmin(admin.ModelAdmin):
 class ReferenceAdmin(admin.ModelAdmin):
     fieldsets = [
             (None, {
-                'fields': ['ref_name', 'author']
+                'fields': ['ref_name', 'author', 'desc']
                 }),
             ('Related books', {
                 'fields': ['prereqs', 'read_with', 'followups']
