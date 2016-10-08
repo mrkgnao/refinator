@@ -1,6 +1,7 @@
 decorator==4.0.10
 dj-database-url==0.4.0
 Django==1.10.2
+django-mathjax==0.0.5
 gunicorn==19.4.5
 ipython==5.1.0
 ipython-genutils==0.1.0

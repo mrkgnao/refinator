@@ -3,22 +3,25 @@
 {% block body %}
 
 <div class="">
-{% if ref_list %}
-<div class="list-group">
-    {% for ref in ref_list %}
-        <a href="{% url 'refinator:detail' ref.id %}" class="list-group-item list-group-item-action">
+    {% if ref_list %}
+    <div class="list-group">
+        {% for ref in ref_list %}
+        <a href="{% url 'refinator:ref_detail' ref.id %}" class="list-group-item list-group-item-action">
             <h5 class="list-group-item-heading">{{ ref.ref_name }}</h5>
             <div class="list-group-item-text">{{ ref.author }}</div>
             {% for tag in ref.tags.iterator %}
             <!-- TODO link to tag -->
-                <span class="tag tag-default">{{ tag.tag_name }}</span>
+            <span class="tag tag-default">
+                <i class="fa fa-tag fa-flip-horizontal" aria-hidden="true"></i>
+                {{ tag.tag_name }}
+            </span>
             {% endfor %}
         </a>
-    {% endfor %}
-</div>
-{% else %}
+        {% endfor %}
+    </div>
+    {% else %}
     <p>No references are available.</p>
-{% endif %}
+    {% endif %}
 </div>
 
 {% endblock %}

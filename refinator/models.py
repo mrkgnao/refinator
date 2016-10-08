@@ -6,6 +6,8 @@ class Tag(models.Model):
     tag_name = models.CharField(max_length=100)
     tag_slug = models.CharField(max_length=100)
 
+    desc = models.CharField(max_length=5000, default="")
+
     def set_slug(self):
         self.tag_slug = re.sub(r"\s+", '-', self.tag_name).lower()
 

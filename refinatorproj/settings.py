@@ -25,7 +25,7 @@ PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
 SECRET_KEY = 'i+acxn5(akgsn!sr4^qgf(^m&*@+g1@u^t@=8s@axc41ml*f=s'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 
 # Application definition
@@ -37,7 +37,8 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'refinator'
+    'django_mathjax',
+    'refinator',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -136,3 +137,13 @@ STATICFILES_DIRS = (
 # https://warehouse.python.org/project/whitenoise/
 STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
 
+MATHJAX_ENABLED = True
+MATHJAX_CONFIG_DATA = {
+  "tex2jax": {
+    "inlineMath":
+      [
+          ['$','$'],
+          ['\\(','\\)']
+      ]
+  }
+}

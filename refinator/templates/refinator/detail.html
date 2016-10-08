@@ -36,46 +36,46 @@
         <tr>
             <th class="padded-lg">Prereqs</th>
             <td>
-                {% if ref.prereqs %}
                 <ul class="list-group">
+                {% if ref.prereqs.count %}
                     {% for f in ref.prereqs.iterator %}
 
-                    <li class="list-group-item"><a href="{% url 'refinator:detail' f.id %}">{{ f.ref_name }}</a></li>
+                    <li class="list-group-item"><a href="{% url 'refinator:ref_detail' f.id %}">{{ f.ref_name }}</a></li>
                     {% endfor %}
-                </ul>
                 {% else %}
-                No prereqs, yay
+                    <li class="list-group-item">No prerequisites!</li>
                 {% endif %}
+                </ul>
             </td>
         </tr>
         <tr>
             <th class="padded-lg">Read with</th>
             <td>
-                {% if ref.read_with %}
                 <ul class="list-group">
+                {% if ref.read_with.count %}
                     {% for f in ref.read_with.iterator %}
 
-                    <li class="list-group-item"><a href="{% url 'refinator:detail' f.id %}">{{ f.ref_name }}</a></li>
+                    <li class="list-group-item"><a href="{% url 'refinator:ref_detail' f.id %}">{{ f.ref_name }}</a></li>
                     {% endfor %}
-                </ul>
                 {% else %}
-                No prereqs, yay
+                    <li class="list-group-item">None known.</li>
                 {% endif %}
+                </ul>
             </td>
         </tr>
         <tr>
             <th class="padded-lg">Followups</th>
             <td>
-                {% if ref.followups %}
                 <ul class="list-group">
+                {% if ref.followups.count %}
                     {% for f in ref.followups.iterator %}
 
-                    <li class="list-group-item"><a href="{% url 'refinator:detail' f.id %}">{{ f.ref_name }}</a></li>
+                    <li class="list-group-item"><a href="{% url 'refinator:ref_detail' f.id %}">{{ f.ref_name }}</a></li>
                     {% endfor %}
-                </ul>
                 {% else %}
-                No prereqs, yay
+                    <li class="list-group-item">You've reached the boundaries of human knowledge.</li>
                 {% endif %}
+                </ul>
             </td>
         </tr>
 
@@ -104,7 +104,11 @@
                 <td>
                     {% for tag in ref.tags.iterator %}
                     <!-- TODO link to tag -->
-                    <span class="tag tag-default">{{ tag.tag_name }}</span>
+
+                    <span class="tag tag-default">
+                        <i class="fa fa-tag fa-flip-horizontal" aria-hidden="true"></i>
+                        {{ tag.tag_name }}
+                    </span>
                     {% endfor %}
                 </td>
             </tr>

@@ -1,0 +1,26 @@
+{% extends './base.html' %}
+
+{% block body %}
+
+<div class="">
+    {% if tag %}
+    <h1>
+        {{ tag.tag_name }}
+    </h1>
+
+    <div class="list-group">
+        {% for ref in tag.reference_set.iterator %}
+        <li class="list-group-item">
+            <h5>
+                {{ ref.ref_name }}
+            </h5>
+            {{ ref.desc }}
+        </li>
+        {% endfor %}
+    </div>
+    {% else %}
+    <p>No tags are available.</p>
+    {% endif %}
+</div>
+
+{% endblock %}

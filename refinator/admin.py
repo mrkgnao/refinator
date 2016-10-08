@@ -12,7 +12,7 @@ class TagInline(admin.StackedInline):
 
 class TagAdmin(admin.ModelAdmin):
     fieldsets = [
-        (None, {'fields': ['tag_name']})
+        (None, {'fields': ['tag_name', 'desc']})
     ]
 
 class ReferenceAdmin(admin.ModelAdmin):

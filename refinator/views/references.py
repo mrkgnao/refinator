@@ -5,16 +5,16 @@ from django.urls import reverse
 from refinator.models import Reference, Comment
 
 
-def index(request):
+def ref_index(request):
     ref_list = Reference.objects.order_by("ref_name")
     context = {'ref_list': ref_list}
     return render(request, 'refinator/index.html', context)
 
-def detail(request, ref_id):
+def ref_detail(request, ref_id):
     ref = get_object_or_404(Reference, pk=ref_id)
     return render(request, 'refinator/detail.html', {'ref': ref})
 
-def vote(request, ref_id, vote_type):
+def ref_vote(request, ref_id, vote_type):
     ref = get_object_or_404(Reference, pk=ref_id)
     if vote_type == "up":
         ref.votes += 1
