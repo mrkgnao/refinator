@@ -8,7 +8,7 @@
     {% for ref in ref_list %}
         <a href="{% url 'refinator:detail' ref.id %}" class="list-group-item list-group-item-action">
             <h5 class="list-group-item-heading">{{ ref.ref_name }}</h5>
-            <p class="list-group-item-text">{{ ref.author }}</p>
+            <div class="list-group-item-text">{{ ref.author }}</div>
             {% for tag in ref.tags.iterator %}
             <!-- TODO link to tag -->
                 <span class="tag tag-default">{{ tag.tag_name }}</span>

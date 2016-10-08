@@ -1,9 +1,27 @@
-<h1>{{ ref.ref_name }}</h1>
-<a href="{{ ref.url }}">Download</a> ({{ ref.size|filesizeformat }} {{ ref.filetype }})
+{% extends './base.html' %}
+
+{% block body %}
+
+<div class="col-md-8 inline-headers">
+<span class="h1 pull-left">{{ ref.ref_name }}  </span>
+<a class="btn btn-outline-primary" href="{{ ref.url }}">download ({{ ref.size|filesizeformat }} {{ ref.filetype }})</a>
 
 {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+<h2>Comments</h2>
+<ul>
+{% for comment in ref.comment_set.all %}
+    <li>{{ comment.comment_text }}</li>
+{% endfor %}
+</ul>
+</div>
 
-<table>
+<div class="col-md-4">
+<h6>Tags</h6>
+{% for tag in ref.tags.iterator %}
+    <!-- TODO link to tag -->
+    <span class="tag tag-default">{{ tag.tag_name }}</span>
+{% endfor %}
+<table class="table">
     <tr>
         <td>Author</td>
         <td>{{ ref.author }}</td>
@@ -24,16 +42,15 @@
         <td> </td>
     </tr>
 </table>
-
-<h2>Comments</h2>
-<ul>
-{% for comment in ref.comment_set.all %}
-    <li>{{ comment.comment_text }}</li>
-{% endfor %}
-</ul>
-
-
 <form action="{% url 'refinator:vote' ref.id %}" method="post">
 {% csrf_token %}
-<input type="submit" value="Vote" />
+    <button class="btn btn-primary" type="submit">
+        vote
+    </button>
 </form>
+</div>
+
+
+
+
+{% endblock %}
