@@ -23,4 +23,4 @@ def ref_vote(request, ref_id, vote_type):
     else:
         ref.votes -= 1
     ref.save()
-    return HttpResponseRedirect(reverse('refinator:detail', args=(ref.id,)))
+    return HttpResponseRedirect(reverse('refinator:ref_detail', args=(ref.id,)))

@@ -4,7 +4,9 @@
             &#9776;
         </button>
         <a class="navbar-brand hidden-sm-up" href="/">
+            <b>
             Refinator
+            </b>
         </a>
     </div>
     <div class="collapse navbar-toggleable-xs" id="bd-main-nav">
@@ -17,14 +19,14 @@
             </li>
             <div class="pull-right">
             {% if user.is_authenticated %}
-                <li class="nav-item">
-                    <span class="nav-link nav-item">
-                        {{ user.email }}
-                    </span>
-                    <a href="/logout/" class="nav-item nav-link">
-                        (logout)
-                    </a>
-                </li>
+            <li class="nav-item">
+                <span class="nav-link nav-item">
+                    {{ user.email }}
+                </span>
+                <a href="/logout/" class="nav-item nav-link">
+                    (logout)
+                </a>
+            </li>
             {% else %}
             <li class="nav-item">
                 <a href="/login/" class="nav-item nav-link">
@@ -36,3 +38,9 @@
         </ul>
     </div>
 </nav>
+
+<script type="text/javascript">
+ $(document).ready(function() {
+     $('a.nav-item[href="' + document.location.pathname + '"]').addClass('active');
+ });
+</script>
