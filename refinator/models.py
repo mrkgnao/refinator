@@ -60,10 +60,21 @@ class ReferenceForm(ModelForm):
         fields = [
             'ref_name',
             'author',
+            'tags',
+            'url',
             'filetype',
-            'tags'
         ]
 
+    def __init__(self, *args, **kwargs):
+        super(ReferenceForm, self).__init__(*args, **kwargs)
+        for f in self.fields.keys():
+            self.fields[f].widget.attrs.update({
+                'class': 'form-control'
+            })
+        self.fields['tags'].widget.attrs.update({
+            'class': 'form-control selectpicker show-tick',
+            'multiple': 'multiple',
+        })
 
 
 class ReferenceVote(models.Model):

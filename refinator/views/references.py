@@ -1,9 +1,8 @@
 from django.http import HttpResponse, HttpResponseRedirect, HttpResponseNotModified, HttpResponseForbidden
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse
 
-from refinator.models import Reference, Comment, ReferenceVote
-
+from refinator.models import Reference, Comment, ReferenceVote, ReferenceForm
 
 def ref_index(request):
     ref_list = Reference.objects.order_by("ref_name")
@@ -42,3 +41,15 @@ def ref_vote(request, ref_id, vote_type):
         return HttpResponse(content="ok")
     else:
         return HttpResponseForbidden()
+
+def ref_create(request):
+    if request.method == "POST":
+        form = ReferenceForm(request.POST)
+        if form.is_valid():
+            ref = form.save(commit=False)
+            ref.added_by = request.user
+            ref.save()
+            return redirect('refinator:ref_detail', ref_id=ref.id)
+    else:
+        form = ReferenceForm()
+    return render(request, 'refs/ref-new.html', {'form': form})
