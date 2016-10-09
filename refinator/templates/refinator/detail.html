@@ -2,7 +2,6 @@
 
 {% block body %}
 
-{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
 <div class="col-md-12">
     <h1>{{ ref.ref_name }}</h1>
     <h4>{{ ref.author }}</h4>
@@ -16,7 +15,7 @@
         </blockquote>
     </div>
 
-    <h3>Comments</h3>
+    <h4>Comments</h4>
     <ul class="">
         {% for comment in ref.comment_set.all %}
         <li class="">
@@ -24,7 +23,7 @@
                 {{ comment.comment_text }}
             </p>
             <footer class="blockquote-footer">
-                {{ comment.speaker }}
+                {{ comment.speaker.username }}
             </footer>
         </li>
         {% endfor %}
@@ -37,14 +36,15 @@
             <th class="padded-lg">Prereqs</th>
             <td>
                 <ul class="list-group">
-                {% if ref.prereqs.count %}
+                    {% if ref.prereqs.count %}
                     {% for f in ref.prereqs.iterator %}
-
-                    <li class="list-group-item"><a href="{% url 'refinator:ref_detail' f.id %}">{{ f.ref_name }}</a></li>
+                    <a class="related-book list-group-item" href="{% url 'refinator:ref_detail' f.id %}">
+                        {{ f.ref_name }}
+                    </a>
                     {% endfor %}
-                {% else %}
+                    {% else %}
                     <li class="list-group-item">No prerequisites!</li>
-                {% endif %}
+                    {% endif %}
                 </ul>
             </td>
         </tr>
@@ -52,14 +52,15 @@
             <th class="padded-lg">Read with</th>
             <td>
                 <ul class="list-group">
-                {% if ref.read_with.count %}
+                    {% if ref.read_with.count %}
                     {% for f in ref.read_with.iterator %}
-
-                    <li class="list-group-item"><a href="{% url 'refinator:ref_detail' f.id %}">{{ f.ref_name }}</a></li>
+                    <a class="related-book list-group-item" href="{% url 'refinator:ref_detail' f.id %}">
+                        {{ f.ref_name }}
+                    </a>
                     {% endfor %}
-                {% else %}
+                    {% else %}
                     <li class="list-group-item">None known.</li>
-                {% endif %}
+                    {% endif %}
                 </ul>
             </td>
         </tr>
@@ -67,14 +68,15 @@
             <th class="padded-lg">Followups</th>
             <td>
                 <ul class="list-group">
-                {% if ref.followups.count %}
+                    {% if ref.followups.count %}
                     {% for f in ref.followups.iterator %}
-
-                    <li class="list-group-item"><a href="{% url 'refinator:ref_detail' f.id %}">{{ f.ref_name }}</a></li>
+                    <a class="related-book list-group-item" href="{% url 'refinator:ref_detail' f.id %}">
+                        {{ f.ref_name }}
+                    </a>
                     {% endfor %}
-                {% else %}
+                    {% else %}
                     <li class="list-group-item">You've reached the boundaries of human knowledge.</li>
-                {% endif %}
+                    {% endif %}
                 </ul>
             </td>
         </tr>
@@ -85,7 +87,8 @@
 </div>
 
 <div class="col-md-4">
-
+    <div id="bs-message-placeholder">
+    </div>
     <table class="table table-borderless">
         <tbody>
             <tr>
@@ -122,6 +125,10 @@
                 </td>
             </tr>
             <tr>
+                <th>Added by</th>
+                <td>{{ ref.added_by.username }}</td>
+            </tr>
+            <tr>
                 <th class="vertical-center">
                     Votes
                 </th>
@@ -153,6 +160,13 @@
 <script type="text/javascript">
  jQuery(function($) {
 
+     bootstrapTopMessage = function(message, msgtype) {
+         $('#bs-message-placeholder').html('<div class="alert alert-' + msgtype + ' alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button><span>'+message+'</span></div>')
+     }
+     bootstrapTopDanger = function(message) {
+         bootstrapTopMessage(message, 'danger');
+     }
+
      // Hook up our vote handlers
      $("button.vote").on('click', voteClick);
 
@@ -166,12 +180,6 @@
 
          voteLink = $(this);
 
-         // See if the vote has already been done or is in progress
-         if (voteLink.hasClass('done') || voteLink.hasClass('inprogress')) {
-             // Ignore the click, possibly tell the user why
-             return;
-         }
-
          // Get the vote type
          voteType = voteLink.hasClass('vote-up') ? 'up' : 'down';
 
@@ -184,39 +192,36 @@
              return;
          }
 
-         // Mark "in progress" and initiate the vote; action continues
-         // in our callbacks below
-         voteLink.addClass('btn-disabled');
+
          $.ajax({
              url:     "/{{ ref.id }}/vote/" + voteType + "/",
              type:    'POST',
-             success: votePostSuccess,
-             error:   votePostError
-         });
+             statusCode: {
+                 200: function(xhr) {
 
-         // Called when the POST is successful
-         function votePostSuccess(response) {
-             // The POST worked
-             var delta = 0;
-             voteLink.removeClass('inprogress');
+                     var delta = 0;
+                     voteLink.removeClass('inprogress');
 
-             voteLink.addClass('done');
-             if (voteType === 'up') {
-                 delta = 1;
-             } else {
-                 delta = -1;
+                     voteLink.addClass('done');
+                     if (voteType === 'up') {
+                         delta = 1;
+                     } else {
+                         delta = -1;
+                     }
+
+                     voteLabel.innerText = delta + parseInt(voteLabel.innerText);
+                     bootstrapTopMessage("Vote successful.", "success");
+                 },
+                 304: function(xhr) {
+                     if(window.console) console.log("304");
+                     bootstrapTopDanger("You've already voted this " + voteType + ".");
+                 },
+                 403: function(xhr) {
+                     if(window.console) console.log("403");
+                     bootstrapTopDanger("You must log in to vote.");
+                 }
              }
-
-             voteLabel.innerText = delta + parseInt(voteLabel.innerText);
-         }
-
-         // Called when the POST fails for some reason (HTTP errors)
-         function votePostError(xhr, statusText, err) {
-             // Not in progress anymore
-             voteLink.removeClass('inprogress');
-
-             // Report error to user
-         }
+         });
      }
  });
 </script>

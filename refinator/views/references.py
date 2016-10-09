@@ -1,8 +1,8 @@
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect, HttpResponseNotModified, HttpResponseForbidden
 from django.shortcuts import render, get_object_or_404
 from django.urls import reverse
 
-from refinator.models import Reference, Comment
+from refinator.models import Reference, Comment, ReferenceVote
 
 
 def ref_index(request):
@@ -18,9 +18,21 @@ def ref_detail(request, ref_id):
 
 def ref_vote(request, ref_id, vote_type):
     ref = get_object_or_404(Reference, pk=ref_id)
+
     if vote_type == "up":
-        ref.votes += 1
+        vote_amount = 1
     else:
-        ref.votes -= 1
-    ref.save()
-    return HttpResponseRedirect(reverse('refinator:ref_detail', args=(ref.id,)))
+        vote_amount = -1
+
+    if request.user.is_authenticated:
+        if ReferenceVote.user_has_voted(request.user, ref, vote_amount):
+            return HttpResponseNotModified()
+        else:
+            if vote_type == "up":
+                v = ReferenceVote(ref=ref, user=request.user, vote_amount=1)
+            else:
+                v = ReferenceVote(ref=ref, user=request.user, vote_amount=-1)
+            v.save()
+        return HttpResponse(content="ok")
+    else:
+        return HttpResponseForbidden()

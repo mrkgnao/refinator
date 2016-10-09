@@ -21,8 +21,10 @@
             {% if user.is_authenticated %}
             <li class="nav-item">
                 <span class="nav-link nav-item">
-                    {{ user.email }}
+                    {{ user.username }}
                 </span>
+            </li>
+            <li class="nav-item">
                 <a href="/logout/" class="nav-item nav-link">
                     (logout)
                 </a>

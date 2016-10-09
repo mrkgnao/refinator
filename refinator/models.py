@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 import re
 import requests
 
@@ -26,10 +27,10 @@ class Reference(models.Model):
     filetype = models.CharField(max_length=20)
     size     = models.IntegerField(default=0)
     author   = models.CharField(max_length=20)
-    votes    = models.IntegerField(default=1)
     tags     = models.ManyToManyField(Tag)
 
     added_date = models.DateField(auto_now_add=True)
+    added_by = models.ForeignKey(User, default=1)
 
     desc = models.CharField(max_length=5000, default="")
 
@@ -48,9 +49,31 @@ class Reference(models.Model):
         self.get_and_save_size()
         super(Reference, self).save(*args, **kwargs)
 
+    def votes(self):
+        from functools import reduce
+        return reduce(lambda x, y: x + y, map(lambda v: v.vote_amount, ReferenceVote.objects.filter(ref=self)), 0)
+
+class ReferenceVote(models.Model):
+    user = models.ForeignKey(User, default=1)
+    ref  = models.ForeignKey(Reference)
+    vote_amount = models.IntegerField()
+
+    def __str__(self):
+        return "{} {} for {}".format(self.user.username, self.vote_amount, self.ref.ref_name)
+
+    def user_has_voted(user, ref, vote_amount):
+        return ReferenceVote.objects.filter(user=user, ref=ref, vote_amount=vote_amount).count() > 0
+
+    def save(self, *args, **kwargs):
+        if ReferenceVote.user_has_voted(self.user, self.ref, self.vote_amount):
+            print("user has voted this way already")
+        else:
+            ReferenceVote.objects.filter(user=self.user, ref=self.ref).delete()
+            super(ReferenceVote, self).save(*args, **kwargs)
+
 class Comment(models.Model):
     comment_text = models.CharField(max_length=5000)
-    speaker = models.CharField(max_length=200)
+    speaker = models.ForeignKey(User, default=1)
     created_date = models.DateTimeField(auto_now_add=True)
     reference = models.ForeignKey(Reference, on_delete=models.CASCADE)
 
