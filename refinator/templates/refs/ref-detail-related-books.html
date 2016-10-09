@@ -1,0 +1,51 @@
+<table class="table table-borderless" id="related-books">
+    <tr>
+        <th class="padded-lg">Prereqs</th>
+        <td>
+            <ul class="list-group">
+                {% if ref.prereqs.count %}
+                {% for f in ref.prereqs.iterator %}
+                <a class="related-book list-group-item" href="{% url 'refinator:ref_detail' f.id %}">
+                    {{ f.ref_name }}
+                </a>
+                {% endfor %}
+                {% else %}
+                <li class="list-group-item">No prerequisites!</li>
+                {% endif %}
+            </ul>
+        </td>
+    </tr>
+    <tr>
+        <th class="padded-lg">Read with</th>
+        <td>
+            <ul class="list-group">
+                {% if ref.read_with.count %}
+                {% for f in ref.read_with.iterator %}
+                <a class="related-book list-group-item" href="{% url 'refinator:ref_detail' f.id %}">
+                    {{ f.ref_name }}
+                </a>
+                {% endfor %}
+                {% else %}
+                <li class="list-group-item">None known.</li>
+                {% endif %}
+            </ul>
+        </td>
+    </tr>
+    <tr>
+        <th class="padded-lg">Followups</th>
+        <td>
+            <ul class="list-group">
+                {% if ref.followups.count %}
+                {% for f in ref.followups.iterator %}
+                <a class="related-book list-group-item" href="{% url 'refinator:ref_detail' f.id %}">
+                    {{ f.ref_name }}
+                </a>
+                {% endfor %}
+                {% else %}
+                <li class="list-group-item">You've reached the boundaries of human knowledge.</li>
+                {% endif %}
+            </ul>
+        </td>
+    </tr>
+
+</table>

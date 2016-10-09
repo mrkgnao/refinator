@@ -1,0 +1,69 @@
+<div id="bs-message-placeholder">
+</div>
+<table class="table table-borderless">
+    <tbody>
+        <tr>
+            <td colspan="2">
+                <a class="btn btn-outline-primary btn-block" href="{{ ref.url }}">
+                    <span class="fa fa-cloud-download fa-lg" aria-hidden="true"> </span>
+                    Download ({{ ref.size|filesizeformat }} {{ ref.filetype }})
+                </a>
+            </td>
+        </tr>
+        <tr>
+            <th>Tags</th>
+            <td>
+                {% for tag in ref.tags.iterator %}
+                {% include 'tags/tag-pill.html' %}
+                {% endfor %}
+            </td>
+        </tr>
+        <tr>
+            <th>
+                Added
+            </th>
+
+            <td>
+                {{ ref.added_date }}
+            </td>
+        </tr>
+        <tr>
+            <th>Added by</th>
+            <td>{{ ref.added_by.username }}</td>
+        </tr>
+        <tr>
+            <th class="vertical-center">
+                Votes
+            </th>
+            <td>
+
+                <div class="btn-group">
+                    {% if has_upvoted %}
+                    <button class="btn btn-primary vote vote-up">
+                        <span class="fa fa-thumbs-o-up" aria-hidden="true"></span>
+                    </button>
+                    {% else %}
+                    <button class="btn btn-primary-outline vote vote-up">
+                        <span class="fa fa-thumbs-o-up" aria-hidden="true"></span>
+                    </button>
+                    {% endif %}
+
+                    <button class="btn btn-secondary" id="vote-count">
+                        {{ ref.votes }}
+                    </button>
+
+                    {% if has_downvoted %}
+                    <button class="btn btn-primary vote vote-down">
+                        <span class="fa fa-thumbs-o-down" aria-hidden="true"></span>
+                    </button>
+                    {% else %}
+                    <button class="btn btn-primary-outline vote vote-down">
+                        <span class="fa fa-thumbs-o-down" aria-hidden="true"></span>
+                    </button>
+                    {% endif %}
+                </div>
+            </td>
+        </tr>
+
+    </tbody>
+</table>

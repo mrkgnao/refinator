@@ -1,0 +1,20 @@
+{% extends 'main/base.html' %}
+
+{% block body %}
+
+{% if user %}
+{{ user.first_name }}
+{% endif %}
+<div class="">
+    {% if ref_list %}
+    <div class="list-group">
+        {% for ref in ref_list %}
+        {% include 'refs/ref-listitem.html' with ref=ref %}
+        {% endfor %}
+    </div>
+    {% else %}
+    <p>No references are available.</p>
+    {% endif %}
+</div>
+
+{% endblock %}

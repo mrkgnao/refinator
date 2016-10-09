@@ -10,13 +10,13 @@ def ref_index(request):
     context = {'ref_list': ref_list}
     if request.user:
         context['user'] = request.user
-    return render(request, 'refinator/index.html', context)
+    return render(request, 'refs/ref-index.html', context)
 
 def ref_detail(request, ref_id):
     ref = get_object_or_404(Reference, pk=ref_id)
     has_upvoted = ReferenceVote.user_has_upvoted(request.user, ref)
     has_downvoted = ReferenceVote.user_has_downvoted(request.user, ref)
-    return render(request, 'refinator/detail.html', {
+    return render(request, 'refs/ref-detail.html', {
         'ref': ref,
         'has_upvoted': has_upvoted,
         'has_downvoted': has_downvoted,

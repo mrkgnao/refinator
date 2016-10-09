@@ -1,0 +1,147 @@
+{% extends 'main/base.html' %}
+
+{% block body %}
+
+<div class="col-md-12">
+    <h1>{{ ref.ref_name }}</h1>
+    <h4>{{ ref.author }}</h4>
+    <hr>
+</div>
+
+<div class="col-md-8">
+    <div class="ref-desc">
+        <blockquote class="blockquote">
+            {{ ref.desc }}
+        </blockquote>
+    </div>
+
+    <h4>Comments</h4>
+    <ul class="">
+        {% for comment in ref.comment_set.all %}
+        <li class="">
+            <p class="m-b-0">
+                {{ comment.comment_text }}
+            </p>
+            <footer class="blockquote-footer">
+                {{ comment.speaker.username }}
+            </footer>
+        </li>
+        {% endfor %}
+    </ul>
+
+    <h4>Related books</h4>
+
+    <div id="related-books-table">
+        {% include 'refs/ref-detail-related-books.html' %}
+    </div>
+
+
+</div>
+
+<div class="col-md-4">
+    {% include 'refs/ref-detail-sidebar.html' %}
+</div>
+
+<div class="col-md-8"></div>
+
+
+<script type="text/javascript">
+ jQuery(function($) {
+
+     bootstrapTopMessage = function(message, msgtype) {
+         $('#bs-message-placeholder').html('<div class="alert alert-' + msgtype + ' alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button><span>'+message+'</span></div>')
+     }
+     bootstrapTopDanger = function(message) {
+         bootstrapTopMessage(message, 'danger');
+     }
+
+     // Hook up our vote handlers
+     $("button.vote").on('click', voteClick);
+
+     function voteClick(event) {
+
+         var upvoteLink = $("button.vote.vote-up");
+         var hadUpvoted = upvoteLink.hasClass('btn-primary');
+         var downvoteLink = $("button.vote.vote-down");
+         var hadDownvoted = downvoteLink.hasClass('btn-primary');
+
+         var voteLink, itemId;
+         var voteLabel = document.getElementById('vote-count');
+
+         // Regardless of the below, we handle the event, so "consume" it
+         event.stopPropagation();
+         event.preventDefault();
+
+         voteLink = $(this);
+
+         // Get the vote type
+         voteType = voteLink.hasClass('vote-up') ? 'up' : 'down';
+
+         // Get its ID
+         itemId = {{ ref.id }};
+
+         // If we didn't get an ID...
+         if (!itemId) {
+             // ...report error
+             return;
+         }
+
+         inactivateLink = function(link) {
+             link.removeClass('btn-primary');
+             link.addClass('btn-primary-outline');
+         }
+         activateLink = function(link) {
+             link.removeClass('btn-primary-outline');
+             link.addClass('btn-primary');
+         }
+
+         $.ajax({
+             url:     "/{{ ref.id }}/vote/" + voteType + "/",
+             type:    'POST',
+             statusCode: {
+                 200: function(xhr) {
+
+                     var delta = 0;
+                     if (voteType === 'up') {
+                         if (hadUpvoted) {
+                             // cancel upvote
+                             delta = -1;
+                             inactivateLink(upvoteLink);
+                         } else if (hadDownvoted) {
+                             delta = 2;
+                             inactivateLink(downvoteLink);
+                             activateLink(upvoteLink);
+                         } else {
+                             delta = 1;
+                             activateLink(upvoteLink);
+                         }
+                     } else {
+
+                         if (hadDownvoted) {
+                             // cancel upvote
+                             delta = 1;
+                             inactivateLink(downvoteLink);
+                         } else if (hadUpvoted) {
+                             delta = -2;
+                             inactivateLink(upvoteLink);
+                             activateLink(downvoteLink);
+                         } else {
+                             delta = -1;
+                             activateLink(downvoteLink);
+                         }
+                     }
+
+                     voteLabel.innerText = delta + parseInt(voteLabel.innerText);
+                 },
+                 403: function(xhr) {
+                     if(window.console) console.log("403");
+                     bootstrapTopDanger("You must log in to vote.");
+                 }
+             }
+         });
+     }
+ });
+</script>
+
+
+{% endblock %}

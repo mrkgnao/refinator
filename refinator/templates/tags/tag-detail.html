@@ -1,4 +1,4 @@
-{% extends './base.html' %}
+{% extends 'main/base.html' %}
 
 {% block body %}
 
@@ -10,12 +10,7 @@
 
     <div class="list-group">
         {% for ref in tag.reference_set.iterator %}
-        <li class="list-group-item">
-            <h5>
-                {{ ref.ref_name }}
-            </h5>
-            {{ ref.desc }}
-        </li>
+        {% include 'refs/ref-listitem.html' with ref=ref %}
         {% endfor %}
     </div>
     {% else %}

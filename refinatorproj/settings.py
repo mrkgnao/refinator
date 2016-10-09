@@ -58,8 +58,7 @@ TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
-            'refinator/templates/refinator',
-            'refinator/templates/registration',
+            'refinator/templates',
             ],
         'APP_DIRS': True,
         'OPTIONS': {

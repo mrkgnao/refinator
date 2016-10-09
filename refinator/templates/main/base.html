@@ -53,7 +53,7 @@
         <link rel="stylesheet" type="text/css" href="{% static 'refinator/style.css' %}" />
     </head>
 
-    <body>
+    <body class="col-md-12">
         <header class="navbar navbar-light navbar-static-top bd-navbar">
             <div class="container">
                 {% include "./nav.html" %}
@@ -62,7 +62,6 @@
 
         <div class="container">
             <div>
-
                 {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
                 {% block body %}
                 {% endblock %}
