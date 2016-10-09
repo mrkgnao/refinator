@@ -8,6 +8,7 @@ app_name = 'refinator'
 urlpatterns = [
     url(r'^$', references.ref_index, name='ref_index'),
 
+
     url(r'^login/$', login, name='login'),
     url(r'^logout/$', logout, name='logout'),
 

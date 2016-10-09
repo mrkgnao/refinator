@@ -1,3 +1,9 @@
+<script type="text/javascript">
+ $(document).ready(function() {
+     $('a.nav-item[href="' + document.location.pathname + '"]').addClass('active');
+ });
+</script>
+
 <nav>
     <div class="clearfix">
         <button class="navbar-toggler pull-xs-right hidden-sm-up" type="button" data-toggle="collapse" data-target="#bd-main-nav" aria-controls="bd-main-nav" aria-expanded="false" aria-label="Toggle navigation">
@@ -17,32 +23,24 @@
             <li class="nav-item">
                 <a class="nav-item nav-link" href="/tags/">Tags</a>
             </li>
-            <div class="pull-right">
-                {% if user.is_authenticated %}
-                <li class="nav-item">
-                    <span class="nav-link nav-item">
-                        {{ user.username }}
-                    </span>
-                </li>
-                <li class="nav-item">
-                    <a href="/logout/" class="nav-item nav-link">
-                        (logout)
-                    </a>
-                </li>
-                {% else %}
-                <li class="nav-item">
-                    <a href="/login/" class="nav-item nav-link">
-                        Login
-                    </a>
-                </li>
-                {% endif %}
-            </div>
+            {% if user.is_authenticated %}
+            <li class="nav-item">
+                <span class="nav-link nav-item">
+                    {{ user.username }}
+                </span>
+            </li>
+            <li class="nav-item">
+                <a href="/logout/" class="nav-item nav-link">
+                    (logout)
+                </a>
+            </li>
+            {% else %}
+            <li class="nav-item">
+                <a href="/login/" class="nav-item nav-link">
+                    Login
+                </a>
+            </li>
+            {% endif %}
         </ul>
     </div>
 </nav>
-
-<script type="text/javascript">
- $(document).ready(function() {
-     $('a.nav-item[href="' + document.location.pathname + '"]').addClass('active');
- });
-</script>

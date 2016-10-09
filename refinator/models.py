@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.forms import ModelForm
 import re
 import requests
 
@@ -53,6 +54,18 @@ class Reference(models.Model):
         from functools import reduce
         return reduce(lambda x, y: x + y, map(lambda v: v.vote_amount, ReferenceVote.objects.filter(ref=self)), 0)
 
+class ReferenceForm(ModelForm):
+    class Meta:
+        model = Reference
+        fields = [
+            'ref_name',
+            'author',
+            'filetype',
+            'tags'
+        ]
+
+
+
 class ReferenceVote(models.Model):
     user = models.ForeignKey(User, default=1)
     ref  = models.ForeignKey(Reference)
@@ -85,3 +98,8 @@ class Comment(models.Model):
 
     def __str__(self):
         return self.comment_text
+
+class CommentForm(ModelForm):
+    class Meta:
+        model = Comment
+        fields = ['comment_text', 'reference']
