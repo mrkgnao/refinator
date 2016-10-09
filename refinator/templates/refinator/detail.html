@@ -92,13 +92,10 @@
     <table class="table table-borderless">
         <tbody>
             <tr>
-                <th class="vertical-center">
-                    Download
-                </th>
-                <td>
-                    <a class="btn btn-primary" href="{{ ref.url }}">
+                <td colspan="2">
+                    <a class="btn btn-outline-primary btn-block" href="{{ ref.url }}">
                         <span class="fa fa-cloud-download fa-lg" aria-hidden="true"> </span>
-                        ({{ ref.size|filesizeformat }} {{ ref.filetype }})
+                        Download ({{ ref.size|filesizeformat }} {{ ref.filetype }})
                     </a>
                 </td>
             </tr>
@@ -135,17 +132,29 @@
                 <td>
 
                     <div class="btn-group">
+                        {% if has_upvoted %}
+                        <button class="btn btn-primary vote vote-up">
+                            <span class="fa fa-thumbs-o-up" aria-hidden="true"></span>
+                        </button>
+                        {% else %}
                         <button class="btn btn-primary-outline vote vote-up">
                             <span class="fa fa-thumbs-o-up" aria-hidden="true"></span>
                         </button>
+                        {% endif %}
 
                         <button class="btn btn-secondary" id="vote-count">
                             {{ ref.votes }}
                         </button>
 
+                        {% if has_downvoted %}
+                        <button class="btn btn-primary vote vote-down">
+                            <span class="fa fa-thumbs-o-down" aria-hidden="true"></span>
+                        </button>
+                        {% else %}
                         <button class="btn btn-primary-outline vote vote-down">
                             <span class="fa fa-thumbs-o-down" aria-hidden="true"></span>
                         </button>
+                        {% endif %}
                     </div>
                 </td>
             </tr>
@@ -171,6 +180,12 @@
      $("button.vote").on('click', voteClick);
 
      function voteClick(event) {
+
+         var upvoteLink = $("button.vote.vote-up");
+         var hadUpvoted = upvoteLink.hasClass('btn-primary');
+         var downvoteLink = $("button.vote.vote-down");
+         var hadDownvoted = downvoteLink.hasClass('btn-primary');
+
          var voteLink, itemId;
          var voteLabel = document.getElementById('vote-count');
 
@@ -192,6 +207,14 @@
              return;
          }
 
+         inactivateLink = function(link) {
+             link.removeClass('btn-primary');
+             link.addClass('btn-primary-outline');
+         }
+         activateLink = function(link) {
+             link.removeClass('btn-primary-outline');
+             link.addClass('btn-primary');
+         }
 
          $.ajax({
              url:     "/{{ ref.id }}/vote/" + voteType + "/",
@@ -200,21 +223,36 @@
                  200: function(xhr) {
 
                      var delta = 0;
-                     voteLink.removeClass('inprogress');
-
-                     voteLink.addClass('done');
                      if (voteType === 'up') {
-                         delta = 1;
+                         if (hadUpvoted) {
+                             // cancel upvote
+                             delta = -1;
+                             inactivateLink(upvoteLink);
+                         } else if (hadDownvoted) {
+                             delta = 2;
+                             inactivateLink(downvoteLink);
+                             activateLink(upvoteLink);
+                         } else {
+                             delta = 1;
+                             activateLink(upvoteLink);
+                         }
                      } else {
-                         delta = -1;
+
+                         if (hadDownvoted) {
+                             // cancel upvote
+                             delta = 1;
+                             inactivateLink(downvoteLink);
+                         } else if (hadUpvoted) {
+                             delta = -2;
+                             inactivateLink(upvoteLink);
+                             activateLink(downvoteLink);
+                         } else {
+                             delta = -1;
+                             activateLink(downvoteLink);
+                         }
                      }
 
                      voteLabel.innerText = delta + parseInt(voteLabel.innerText);
-                     bootstrapTopMessage("Vote successful.", "success");
-                 },
-                 304: function(xhr) {
-                     if(window.console) console.log("304");
-                     bootstrapTopDanger("You've already voted this " + voteType + ".");
                  },
                  403: function(xhr) {
                      if(window.console) console.log("403");

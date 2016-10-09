@@ -62,11 +62,17 @@ class ReferenceVote(models.Model):
         return "{} {} for {}".format(self.user.username, self.vote_amount, self.ref.ref_name)
 
     def user_has_voted(user, ref, vote_amount):
-        return ReferenceVote.objects.filter(user=user, ref=ref, vote_amount=vote_amount).count() > 0
+        return user.is_authenticated and ReferenceVote.objects.filter(user=user, ref=ref, vote_amount=vote_amount).count() > 0
+
+    def user_has_upvoted(user, ref):
+        return ReferenceVote.user_has_voted(user, ref, 1)
+
+    def user_has_downvoted(user, ref):
+        return ReferenceVote.user_has_voted(user, ref, -1)
 
     def save(self, *args, **kwargs):
         if ReferenceVote.user_has_voted(self.user, self.ref, self.vote_amount):
-            print("user has voted this way already")
+            ReferenceVote.objects.filter(user=self.user, ref=self.ref).delete()
         else:
             ReferenceVote.objects.filter(user=self.user, ref=self.ref).delete()
             super(ReferenceVote, self).save(*args, **kwargs)

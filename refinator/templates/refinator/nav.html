@@ -1,11 +1,11 @@
 <nav>
     <div class="clearfix">
         <button class="navbar-toggler pull-xs-right hidden-sm-up" type="button" data-toggle="collapse" data-target="#bd-main-nav" aria-controls="bd-main-nav" aria-expanded="false" aria-label="Toggle navigation">
-<i class="fa fa-bars" aria-hidden="true"></i>
+            <i class="fa fa-bars" aria-hidden="true"></i>
         </button>
         <a class="navbar-brand hidden-sm-up" href="/">
             <b>
-            Refinator
+                Refinator
             </b>
         </a>
     </div>
@@ -18,24 +18,24 @@
                 <a class="nav-item nav-link" href="/tags/">Tags</a>
             </li>
             <div class="pull-right">
-            {% if user.is_authenticated %}
-            <li class="nav-item">
-                <span class="nav-link nav-item">
-                    {{ user.username }}
-                </span>
-            </li>
-            <li class="nav-item">
-                <a href="/logout/" class="nav-item nav-link">
-                    (logout)
-                </a>
-            </li>
-            {% else %}
-            <li class="nav-item">
-                <a href="/login/" class="nav-item nav-link">
-                    Login
-                </a>
-            </li>
-            {% endif %}
+                {% if user.is_authenticated %}
+                <li class="nav-item">
+                    <span class="nav-link nav-item">
+                        {{ user.username }}
+                    </span>
+                </li>
+                <li class="nav-item">
+                    <a href="/logout/" class="nav-item nav-link">
+                        (logout)
+                    </a>
+                </li>
+                {% else %}
+                <li class="nav-item">
+                    <a href="/login/" class="nav-item nav-link">
+                        Login
+                    </a>
+                </li>
+                {% endif %}
             </div>
         </ul>
     </div>
