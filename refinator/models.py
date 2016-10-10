@@ -60,6 +60,7 @@ class ReferenceForm(ModelForm):
         fields = [
             'ref_name',
             'author',
+            'desc',
             'tags',
             'url',
             'filetype',
@@ -67,14 +68,38 @@ class ReferenceForm(ModelForm):
 
     def __init__(self, *args, **kwargs):
         super(ReferenceForm, self).__init__(*args, **kwargs)
+        self.label_suffix = ""
+
+        nicenames = {
+            'url': 'URL',
+            'ref_name': 'Reference name',
+            'desc': 'Description',
+        }
+
+        placeholders = {
+            'url': 'A link to the file',
+            'ref_name': 'The title of the reference',
+            'desc': 'A short, helpful description',
+            'author': 'John Doe',
+            'filetype': 'pdf, djvu, ps, tex, and friends'
+        }
+
         for f in self.fields.keys():
             self.fields[f].widget.attrs.update({
-                'class': 'form-control'
+                'class': 'form-control',
             })
+
+        for k in placeholders.keys():
+            self.fields[k].widget.attrs.update({
+                'placeholder': placeholders[k],
+            })
+
         self.fields['tags'].widget.attrs.update({
-            'class': 'form-control selectpicker show-tick',
-            'multiple': 'multiple',
+            'class': 'form-control show-tick selectpicker',
+            'data-live-search': 'false',
         })
+        for k in nicenames.keys():
+            self.fields[k].label = nicenames[k]
 
 
 class ReferenceVote(models.Model):

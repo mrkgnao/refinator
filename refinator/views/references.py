@@ -1,6 +1,7 @@
 from django.http import HttpResponse, HttpResponseRedirect, HttpResponseNotModified, HttpResponseForbidden
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse
+from django.contrib import messages
 
 from refinator.models import Reference, Comment, ReferenceVote, ReferenceForm
 
@@ -43,13 +44,18 @@ def ref_vote(request, ref_id, vote_type):
         return HttpResponseForbidden()
 
 def ref_create(request):
-    if request.method == "POST":
-        form = ReferenceForm(request.POST)
-        if form.is_valid():
-            ref = form.save(commit=False)
-            ref.added_by = request.user
-            ref.save()
-            return redirect('refinator:ref_detail', ref_id=ref.id)
+    if request.user.is_authenticated:
+        if request.method == "POST":
+            form = ReferenceForm(request.POST)
+            if form.is_valid():
+                ref = form.save(commit=False)
+                ref.added_by = request.user
+                ref.save()
+                form.save_m2m()
+                return redirect('refinator:ref_detail', ref_id=ref.id)
+        else:
+            form = ReferenceForm()
+        return render(request, 'refs/ref-new.html', {'form': form})
     else:
-        form = ReferenceForm()
-    return render(request, 'refs/ref-new.html', {'form': form})
+        messages.add_message(request, messages.ERROR, 'You must log in to add new references.')
+        return redirect('refinator:login')
