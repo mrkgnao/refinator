@@ -1,4 +1,12 @@
 <li class="list-group-item list-group-item-action col-md-12" style="padding: 1rem 0rem;">
+    {% if none_found %}
+    <div class="col-md-5">
+        <h5 class="list-group-item-heading">No references tagged {% include 'tags/tag-pill.html' with tag=tag %} found.</h5>
+        <div class="list-group-item-text text-muted">
+            Maybe you'd like to <a href="{% url 'refinator:tag_create' %}">add one</a>?
+        </div>
+    </div>
+    {% else %}
     <div class="col-md-5">
         <a href="{% url 'refinator:ref_detail' ref.id %}">
             <h5 class="list-group-item-heading">{{ ref.ref_name }}</h5>
@@ -6,11 +14,12 @@
         <div class="list-group-item-text text-muted">{{ ref.author }}</div>
     </div>
     <div class="col-md-7">
-            {{ ref.desc }}
+        {{ ref.desc }}
         <br>
         {% for tag in ref.tags.iterator %}
         <!-- TODO link to tag -->
         {% include 'tags/tag-pill.html' with tag=tag %}
         {% endfor %}
     </div>
+    {% endif %}
 </li>

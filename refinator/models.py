@@ -11,6 +11,9 @@ class Tag(models.Model):
 
     desc = models.TextField()
 
+    added_date = models.DateField(auto_now_add=True)
+    added_by = models.ForeignKey(User, default=1)
+
     def set_slug(self):
         self.tag_slug = re.sub(r"\s+", '-', self.tag_name).lower()
 
@@ -25,6 +28,38 @@ class Tag(models.Model):
     class Meta:
         ordering = ("tag_slug", )
 
+class TagForm(ModelForm):
+    class Meta:
+        model = Tag
+        fields = [
+            'tag_name',
+            'desc',
+        ]
+
+    def __init__(self, *args, **kwargs):
+        super(TagForm, self).__init__(*args, **kwargs)
+        self.label_suffix = ""
+
+        nicenames = {
+            'tag_name': 'Tag name',
+            'desc': 'Description',
+        }
+
+        placeholders = {
+            'tag_name': 'The title of the tag',
+            'desc': 'A few words about the topic',
+        }
+
+        for f in self.fields.keys():
+            self.fields[f].widget.attrs.update({'class': 'form-control', })
+
+        for k in placeholders.keys():
+            self.fields[k].widget.attrs.update({
+                'placeholder': placeholders[k],
+            })
+
+        for k in nicenames.keys():
+            self.fields[k].label = nicenames[k]
 
 class Reference(models.Model):
     ref_name = models.CharField(max_length=200)

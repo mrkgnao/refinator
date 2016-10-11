@@ -1,7 +1,12 @@
 {% extends 'main/base.html' %}
 
 {% block title %}References{% endblock %}
-{% block header %}References{% endblock %}
+{% block header %}References
+<a href="/refs/new/" class="display-3 h1 btn btn-primary">
+    <i class="fa fa-plus" aria-hidden="true"></i>
+    add new
+</a>
+{% endblock %}
 
 {% block body %}
 

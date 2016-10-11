@@ -6,6 +6,10 @@
 
 {% block header %}
 {{ tag.tag_name }}
+<a href="/tags/edit/{{ tag.id }}/" class="display-3 h1 btn btn-primary">
+    <i class="fa fa-pencil" aria-hidden="true"></i>
+    edit this tag
+</a>
 {% endblock %}
 
 
@@ -16,9 +20,15 @@
 </p>
 
 <div class="list-group">
+    {% if tag.reference_set.count > 0 %}
+
     {% for ref in tag.reference_set.iterator %}
     {% include 'refs/ref-listitem.html' with ref=ref %}
     {% endfor %}
+
+    {% else %}
+    {% include 'refs/ref-listitem.html' with none_found=True tag=tag %}
+    {% endif %}
 </div>
 
 {% endblock %}

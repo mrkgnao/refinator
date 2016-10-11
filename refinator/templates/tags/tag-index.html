@@ -1,7 +1,13 @@
 {% extends 'main/base.html' %}
 
 {% block title %}Tags{% endblock %}
-{% block header %}Tags{% endblock %}
+{% block header %}Tags
+<a href="/tags/new/" class="display-3 h1 btn btn-primary">
+    <i class="fa fa-plus" aria-hidden="true"></i>
+    add new
+</a>
+{% endblock %}
+
 
 {% block body %}
 

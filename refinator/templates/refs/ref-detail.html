@@ -20,20 +20,20 @@
         </blockquote>
     </div>
 
-    <h4>Comments</h4>
-    <ul class="">
-        {% for comment in ref.comment_set.all %}
-        <li class="">
-            <p class="m-b-0">
-                {{ comment.comment_text }}
-            </p>
-            <footer class="blockquote-footer">
-                {{ comment.speaker.username }}
-            </footer>
-        </li>
-        {% endfor %}
-    </ul>
-
+    <!-- <h4>Comments</h4>
+         <ul class="">
+         {% for comment in ref.comment_set.all %}
+         <li class="">
+         <p class="m-b-0">
+         {{ comment.comment_text }}
+         </p>
+         <footer class="blockquote-footer">
+         {{ comment.speaker.username }}
+         </footer>
+         </li>
+         {% endfor %}
+         </ul>
+       -->
     <h4>Related books</h4>
 
     <div id="related-books-table">
