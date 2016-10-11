@@ -91,6 +91,9 @@ class Reference(models.Model):
             txt += "s"
         return txt
 
+    def compute_filetype(self):
+        self.filetype = self.url.split(".")[-1]
+
     def get_and_save_size(self):
         try:
             r = requests.head(self.url, headers={'Accept-Encoding': 'identity'})
@@ -99,6 +102,7 @@ class Reference(models.Model):
             self.size = 0
 
     def save(self, *args, **kwargs):
+        self.compute_filetype()
         self.get_and_save_size()
         super(Reference, self).save(*args, **kwargs)
 

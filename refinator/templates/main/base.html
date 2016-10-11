@@ -75,7 +75,7 @@
 
         <div class="container">
         <br>
-            <div class="h2 display-4">
+            <div class="h2">
                 {% block header %}
                 {% endblock %}
             </div>
@@ -91,7 +91,6 @@
                 {% block microheader %}
                 {% endblock %}
             </div>
-            <br>
 
             <div>
                 {% for msg in messages %}
@@ -125,7 +124,11 @@
         <footer class="footer bd-footer text-muted">
             <div class="container">
                 <span class="text-muted">
-                    Made by <a href="https://github.com/mrkgnao">@mrkgnao</a> in (spac)emacs.
+                    <a href="/about/">about</a>
+                    <a class="nonclickable text-muted nav-item nav-link" href="#">&middot;</a>
+                    <a href="/contact/">contact</a>
+                    <a class="nonclickable text-muted nav-item nav-link" href="#">&middot;</a>
+                    made by <a href="https://github.com/mrkgnao">@mrkgnao</a>
                 </span>
             </div>
         </footer>

@@ -1,11 +1,13 @@
 from django.conf.urls import url
 from django.contrib.auth.views import login, logout
 
-from .views import references, tags, create_user
+from .views import references, tags, create_user, static_pages
 
 app_name = 'refinator'
 
 urlpatterns = [
+    url(r'^about/$', static_pages.about, name='about'),
+    url(r'^contact/$', static_pages.contact, name='contact'),
 
     url(r'^login/$', login, name='login'),
     url(r'^logout/$', logout, name='logout'),

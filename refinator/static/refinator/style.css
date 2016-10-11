@@ -36,3 +36,7 @@ th.padded-lg {
     padding: 1.5rem 1rem;
     width: 10%;
 }
+
+.nonclickable {
+    pointer-events: none;
+}

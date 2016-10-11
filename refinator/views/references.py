@@ -19,7 +19,13 @@ def ref_index(request, page_no):
     except EmptyPage:
         regs = paginator.page(paginator.num_pages)
 
-    context = {'ref_list': refs}
+    context = {'ref_list': refs, 'first_time': False}
+
+    if not request.session.has_key('first_time'):
+        context['first_time'] = True
+        request.session['first_time'] = False
+
+
     return render(request, 'refs/ref-index.html', context)
 
 
