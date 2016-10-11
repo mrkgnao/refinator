@@ -1,24 +1,29 @@
 from django.shortcuts import render_to_response
 from django.http import HttpResponseRedirect
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib import messages
+from django.utils.safestring import mark_safe
+
 from django.template.context_processors import csrf
+from refinator.forms.users import NewUserForm
 
 # http://code.techandstartup.com/django/registration/
 
+
 def register(request):
     if request.method == 'POST':
-        form = UserCreationForm(request.POST)
+        form = NewUserForm(request.POST)
         if form.is_valid():
             form.save()
             return HttpResponseRedirect('/register/complete')
 
     else:
-        form = UserCreationForm()
+        form = NewUserForm()
     token = {}
     token.update(csrf(request))
     token['form'] = form
 
     return render_to_response('registration/registration_form.html', token)
 
+
 def registration_complete(request):
-    return render_to_response('registration/registration_complete.html')
+    return redirect('refs/ref-index.html')

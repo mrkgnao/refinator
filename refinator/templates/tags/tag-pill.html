@@ -1,11 +1,11 @@
 {% if nolink %}
 <span class="btn tag tag-default">
     <i class="fa fa-tag fa-flip-horizontal" aria-hidden="true"></i>
-    {{ tag.tag_name }}
+    {{ tag.tag_slug }}
 </span>
 {% else %}
 <a href="{% url 'refinator:tag_detail' tag.id %}" class="btn tag tag-default">
     <i class="fa fa-tag fa-flip-horizontal" aria-hidden="true"></i>
-    {{ tag.tag_name }}
+    {{ tag.tag_slug }}
 </a>
 {% endif %}

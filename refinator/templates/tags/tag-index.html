@@ -9,15 +9,10 @@
     {% if tag_list %}
     <div class="list-group">
         {% for tag in tag_list %}
-        <!--
-             <span class="list-group-item list-group-item-action">
-             {% include 'tags/tag-pill.html' with tag=tag %}
-             <br>
-             {{ tag.desc }}
-             </span>
-           -->
         <a href="{% url 'refinator:tag_detail' tag.id %}" class="list-group-item list-group-item-action">
-            {% include 'tags/tag-pill.html' with tag=tag nolink=True %}
+            <div style="margin-bottom: 5px;"
+                 {% include 'tags/tag-pill.html' with tag=tag nolink=True %}
+            </div>
             <br>
             {{ tag.desc }}
         </a>
@@ -27,5 +22,7 @@
     <p>No tags are available.</p>
     {% endif %}
 </div>
+
+{% include "main/pagination.html" with paged_object=tag_list paging_url_component="tags" %}
 
 {% endblock %}

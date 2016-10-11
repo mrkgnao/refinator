@@ -20,4 +20,6 @@
     {% endif %}
 </div>
 
+{% include "main/pagination.html" with paged_object=ref_list paging_url_component="refs" %}
+
 {% endblock %}

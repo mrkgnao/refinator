@@ -1,14 +1,19 @@
 {% extends 'main/base.html' %}
 
+{% block title %}{{ ref.ref_name }}{% endblock %}
+
+{% block header %}
+{{ ref.ref_name }}
+{% endblock %}
+
+{% block subheader %}
+{{ ref.author }}
+{% endblock %}
+
+
 {% block body %}
-
-<div class="col-md-12">
-    <h1>{{ ref.ref_name }}</h1>
-    <h4>{{ ref.author }}</h4>
-    <hr>
-</div>
-
 <div class="col-md-8">
+    <h4>Description</h4>
     <div class="ref-desc">
         <blockquote class="blockquote">
             {{ ref.desc }}
@@ -96,7 +101,7 @@
          }
 
          $.ajax({
-             url:     "/{{ ref.id }}/vote/" + voteType + "/",
+             url:     "/refs/{{ ref.id }}/vote/" + voteType + "/",
              type:    'POST',
              statusCode: {
                  200: function(xhr) {

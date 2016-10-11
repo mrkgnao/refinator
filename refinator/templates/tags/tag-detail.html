@@ -1,21 +1,24 @@
 {% extends 'main/base.html' %}
 
+{% block title %}
+{{ tag.tag_name }}
+{% endblock %}
+
+{% block header %}
+{{ tag.tag_name }}
+{% endblock %}
+
+
 {% block body %}
 
-<div class="">
-    {% if tag %}
-    <h1>
-        {{ tag.tag_name }}
-    </h1>
+<p>
+{{ tag.desc }}
+</p>
 
-    <div class="list-group">
-        {% for ref in tag.reference_set.iterator %}
-        {% include 'refs/ref-listitem.html' with ref=ref %}
-        {% endfor %}
-    </div>
-    {% else %}
-    <p>No tags are available.</p>
-    {% endif %}
+<div class="list-group">
+    {% for ref in tag.reference_set.iterator %}
+    {% include 'refs/ref-listitem.html' with ref=ref %}
+    {% endfor %}
 </div>
 
 {% endblock %}

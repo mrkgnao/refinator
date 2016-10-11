@@ -4,11 +4,12 @@ from django.forms import ModelForm
 import re
 import requests
 
+
 class Tag(models.Model):
     tag_name = models.CharField(max_length=100)
     tag_slug = models.CharField(max_length=100)
 
-    desc = models.CharField(max_length=5000, default="")
+    desc = models.TextField()
 
     def set_slug(self):
         self.tag_slug = re.sub(r"\s+", '-', self.tag_name).lower()
@@ -17,34 +18,50 @@ class Tag(models.Model):
         self.set_slug()
         super(Tag, self).save(*args, **kwargs)
 
-
     def __str__(self):
         self.set_slug()
         return self.tag_slug
 
+    class Meta:
+        ordering = ("tag_slug", )
+
+
 class Reference(models.Model):
     ref_name = models.CharField(max_length=200)
-    url      = models.CharField(max_length=200)
+    url = models.CharField(max_length=200)
     filetype = models.CharField(max_length=20)
-    size     = models.IntegerField(default=0)
-    author   = models.CharField(max_length=20)
-    tags     = models.ManyToManyField(Tag)
+    size = models.IntegerField(default=0)
+    author = models.CharField(max_length=20)
+    tags = models.ManyToManyField(Tag)
 
     added_date = models.DateField(auto_now_add=True)
     added_by = models.ForeignKey(User, default=1)
 
-    desc = models.CharField(max_length=5000, default="")
+    desc = models.TextField(default="")
 
-    prereqs    = models.ManyToManyField("self", related_name="prereq_for", blank=True)
-    read_with  = models.ManyToManyField("self", related_name="read_with_for", blank=True)
-    followups  = models.ManyToManyField("self", related_name="followup_for", blank=True)
+    prereqs = models.ManyToManyField(
+        "self", related_name="prereq_for", symmetrical=False, blank=True)
+    read_with = models.ManyToManyField(
+        "self", related_name="read_with_for", symmetrical=False, blank=True)
+    followups = models.ManyToManyField(
+        "self", related_name="followup_for", symmetrical=False, blank=True)
 
     def __str__(self):
         return "{} ({})".format(self.ref_name, self.author)
 
+    def votes_text(self):
+        v = self.votes()
+        txt = "{} vote".format(v)
+        if not (v == 1):
+            txt += "s"
+        return txt
+
     def get_and_save_size(self):
-        r = requests.head(self.url, headers={'Accept-Encoding': 'identity'})
-        self.size = int(r.headers['content-length'])
+        try:
+            r = requests.head(self.url, headers={'Accept-Encoding': 'identity'})
+            self.size = int(r.headers['content-length'])
+        except requests.exceptions.ConnectionError:
+            self.size = 0
 
     def save(self, *args, **kwargs):
         self.get_and_save_size()
@@ -52,7 +69,12 @@ class Reference(models.Model):
 
     def votes(self):
         from functools import reduce
-        return reduce(lambda x, y: x + y, map(lambda v: v.vote_amount, ReferenceVote.objects.filter(ref=self)), 0)
+        return reduce(
+            lambda x, y: x + y,
+            map(lambda v: v.vote_amount,
+                ReferenceVote.objects.filter(ref=self)),
+            0)
+
 
 class ReferenceForm(ModelForm):
     class Meta:
@@ -64,6 +86,9 @@ class ReferenceForm(ModelForm):
             'tags',
             'url',
             'filetype',
+            'prereqs',
+            'read_with',
+            'followups'
         ]
 
     def __init__(self, *args, **kwargs):
@@ -84,34 +109,43 @@ class ReferenceForm(ModelForm):
             'filetype': 'pdf, djvu, ps, tex, and friends'
         }
 
+        selects = [
+            'tags',
+            'prereqs',
+            'read_with',
+            'followups',
+        ]
+
         for f in self.fields.keys():
-            self.fields[f].widget.attrs.update({
-                'class': 'form-control',
-            })
+            self.fields[f].widget.attrs.update({'class': 'form-control', })
 
         for k in placeholders.keys():
             self.fields[k].widget.attrs.update({
                 'placeholder': placeholders[k],
             })
 
-        self.fields['tags'].widget.attrs.update({
-            'class': 'form-control show-tick selectpicker',
-            'data-live-search': 'false',
-        })
+        for s in selects:
+            self.fields[s].widget.attrs.update({
+                'class': 'form-control show-tick selectpicker',
+                'data-live-search': 'false',
+            })
+
         for k in nicenames.keys():
             self.fields[k].label = nicenames[k]
 
 
 class ReferenceVote(models.Model):
     user = models.ForeignKey(User, default=1)
-    ref  = models.ForeignKey(Reference)
+    ref = models.ForeignKey(Reference)
     vote_amount = models.IntegerField()
 
     def __str__(self):
-        return "{} {} for {}".format(self.user.username, self.vote_amount, self.ref.ref_name)
+        return "{} {} for {}".format(self.user.username, self.vote_amount,
+                                     self.ref.ref_name)
 
     def user_has_voted(user, ref, vote_amount):
-        return user.is_authenticated and ReferenceVote.objects.filter(user=user, ref=ref, vote_amount=vote_amount).count() > 0
+        return user.is_authenticated and ReferenceVote.objects.filter(
+            user=user, ref=ref, vote_amount=vote_amount).count() > 0
 
     def user_has_upvoted(user, ref):
         return ReferenceVote.user_has_voted(user, ref, 1)
@@ -126,14 +160,16 @@ class ReferenceVote(models.Model):
             ReferenceVote.objects.filter(user=self.user, ref=self.ref).delete()
             super(ReferenceVote, self).save(*args, **kwargs)
 
+
 class Comment(models.Model):
-    comment_text = models.CharField(max_length=5000)
+    comment_text = models.TextField()
     speaker = models.ForeignKey(User, default=1)
     created_date = models.DateTimeField(auto_now_add=True)
     reference = models.ForeignKey(Reference, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.comment_text
+
 
 class CommentForm(ModelForm):
     class Meta:

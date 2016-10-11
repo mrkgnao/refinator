@@ -1,7 +1,22 @@
 {% extends 'main/base.html' %}
 
-{% block title %}Add a reference{% endblock %}
-{% block header %}Add a reference{% endblock %}
+{% block title %}
+
+{% if edit %}
+Edit a reference
+{% else %}
+Add a new reference
+{% endif %}
+{% endblock %}
+
+{% block header %}
+{% if edit  %}
+Edit a reference
+{% else %}
+Add a new reference
+{% endif %}
+{% endblock %}
+
 
 {% block body %}
 
@@ -23,11 +38,6 @@
     </form>
 </div>
 
-<script type="text/javascript">
- (function($) {
-     console.log("jhlkj");
-     console.log("jhlkj");
- })(jQuery);
-</script>
+
 
 {% endblock %}

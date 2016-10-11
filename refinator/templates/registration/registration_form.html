@@ -1,15 +1,52 @@
 {% extends "main/base.html" %}
-{% block title %}
-Register
-{% endblock %}
+
+{% block title %}Register{% endblock %}
+{% block header %}Register{% endblock %}
+
 {% block body %}
-(I know this page is a mess)
-  <h2>Registration</h2>
 
-  <form action="/register/" method="post">{% csrf_token %}
-    {{form.as_p}}
-  <input type="submit" value="Register" />
+{% if form.errors %}
+<div class="alert alert-danger alert-dismissable fade in" role="alert">
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+    We couldn't quite sign you up: there were some errors with your form.
+</div>
+{% endif %}
 
-  </form>
+<div class="container">
+    <form method="POST" class="post-form">
+        {% csrf_token %}
+        {% for field in form %}
+        {% if field.errors %}
+        <div class="form-group row has-danger">
+            <div class="col-sm-3 col-form-label">
+                {{ field.label_tag }}
+            </div>
+
+            <div class="col-sm-4">
+                {{ field }}
+            </div>
+            <div class="form-control-feedback col-sm-4">
+                {% for err in field.errors %}
+                {{ err }}
+                {% endfor %}
+            </div>
+        </div>
+        {% else %}
+        <div class="form-group row">
+            <div class="col-sm-3 col-form-label">
+                {{ field.label_tag }}
+            </div>
+
+            <div class="col-sm-4">
+                {{ field }}
+            </div>
+        </div>
+        {% endif %}
+        {% endfor %}
+        <button type="submit" class="btn btn-default">Sign up</button>
+    </form>
+</div>
 
 {% endblock %}

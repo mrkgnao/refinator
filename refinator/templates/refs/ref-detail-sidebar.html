@@ -4,10 +4,16 @@
     <tbody>
         <tr>
             <td colspan="2">
+                <div class="btn-group-vertical btn-block">
+                <a class="btn btn-outline-primary btn-block" href="{% url 'refinator:ref_edit' ref.id %}">
+                    <span class="fa fa-pencil fa-lg" aria-hidden="true"> </span>
+                    Edit this reference
+                </a>
                 <a class="btn btn-outline-primary btn-block" href="{{ ref.url }}">
                     <span class="fa fa-cloud-download fa-lg" aria-hidden="true"> </span>
                     Download ({{ ref.size|filesizeformat }} {{ ref.filetype }})
                 </a>
+                </div>
             </td>
         </tr>
         <tr>
