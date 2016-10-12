@@ -1,4 +1,5 @@
 {% extends 'main/base.html' %}
+{% load markdown_deux_tags %}
 
 {% block title %}{{ ref.ref_name }}{% endblock %}
 
@@ -15,7 +16,7 @@
 <div class="col-md-8">
     <div class="ref-desc">
         <blockquote class="blockquote">
-            {{ ref.desc }}
+            {{ ref.desc|markdown }}
         </blockquote>
     </div>
 

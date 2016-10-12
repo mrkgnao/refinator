@@ -1,11 +1,13 @@
 {% extends 'main/base.html' %}
+{% load app_filters %}
+{% load markdown_deux_tags %}
 
 {% block title %}
 {{ tag.tag_name }}
 {% endblock %}
 
 {% block header %}
-{{ tag.tag_name }}
+{{ tag.tag_name|upcase_first_letter }}
 <a href="/tags/edit/{{ tag.id }}/" class="btn btn-primary">
     <i class="fa fa-pencil" aria-hidden="true"></i>
     edit this tag
@@ -16,7 +18,7 @@
 {% block body %}
 
 <p>
-{{ tag.desc }}
+{{ tag.desc|markdown }}
 </p>
 
 <div class="list-group">

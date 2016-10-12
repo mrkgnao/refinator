@@ -48,7 +48,7 @@ class TagForm(ModelForm):
 
         placeholders = {
             'tag_name': 'The title of the tag',
-            'desc': 'A few words about the topic',
+            'desc': 'A few words about the topic. Use LaTeX and Markdown syntax with abandon :)',
         }
 
         for f in self.fields.keys():
@@ -124,7 +124,7 @@ class ReferenceForm(ModelForm):
     class Meta:
         model = Reference
         fields = [
-            'ref_name', 'author', 'desc', 'tags', 'url', 'filetype', 'prereqs',
+            'ref_name', 'author', 'desc', 'tags', 'url', 'prereqs',
             'read_with', 'followups'
         ]
 
@@ -141,9 +141,8 @@ class ReferenceForm(ModelForm):
         placeholders = {
             'url': 'A link to the file',
             'ref_name': 'The title of the reference',
-            'desc': 'A short, helpful description',
+            'desc': 'A short, helpful description. LaTeX and Markdown work as expected.',
             'author': 'John Doe',
-            'filetype': 'pdf, djvu, ps, tex, and friends'
         }
 
         selects = [
