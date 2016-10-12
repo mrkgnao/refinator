@@ -18,7 +18,7 @@
 
         <!-- Bootstrap core CSS -->
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.4/css/bootstrap.min.css" integrity="sha384-2hfp1SzUoho7/TsGGGDaFdsuuDL0LX2hnUp6VkX3CUQ2K4K+xjboZdsXyp4oUHZj" crossorigin="anonymous">
-        <link rel="stylesheet" type="text/css" href="{% static 'refinator/style.css' %}" />
+        <link rel="stylesheet" type="text/css" href="{% static 'refinator/css/style.css' %}" />
 
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.0.0/jquery.min.js" integrity="sha384-THPy051/pYDQGanwU6poAc/hOdQxjnOEXzbT+OuUAFqNqFjL+4IGLBgCJC3ZOShY" crossorigin="anonymous"></script>
 
@@ -27,41 +27,13 @@
 
         <!-- Latest compiled and minified JavaScript -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.11.2/js/bootstrap-select.min.js"></script>
-        <!-- <script type="text/javascript" src="https://rawgit.com/davidstutz/bootstrap-multiselect/master/dist/js/bootstrap-multiselect.js"></script>
-             <link rel="stylesheet" href="https://rawgit.com/davidstutz/bootstrap-multiselect/master/dist/css/bootstrap-multiselect.css" type="text/css"/>
-           -->
+
+        <script src="{% static 'refinator/js/ga.js' %}"></script>
+        <script src="{% static 'refinator/js/csrf.js' %}"></script>
+
         {% autoescape off %}
         {% mathjax_scripts %}
         {% endautoescape %}
-        <script type="text/javascript">
-         function getCookie(name) {
-             var cookieValue = null;
-             if (document.cookie && document.cookie !== '') {
-                 var cookies = document.cookie.split(';');
-                 for (var i = 0; i < cookies.length; i++) {
-                     var cookie = jQuery.trim(cookies[i]);
-                     // Does this cookie string begin with the name we want?
-                     if (cookie.substring(0, name.length + 1) === (name + '=')) {
-                         cookieValue =   decodeURIComponent(cookie.substring(name.length + 1));
-                         break;
-                     }
-                 }
-             }
-             return cookieValue;
-         }
-         var csrftoken = getCookie('csrftoken');
-         function csrfSafeMethod(method) {
-             // these HTTP methods do not require CSRF protection
-             return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
-         }
-         $.ajaxSetup({
-             beforeSend: function(xhr, settings) {
-                 if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
-                     xhr.setRequestHeader("X-CSRFToken", csrftoken);
-                 }
-             }
-         });
-        </script>
         <!-- Custom styles for this template -->
     </head>
 
