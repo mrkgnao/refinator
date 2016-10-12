@@ -1,0 +1,29 @@
+{% extends 'main/base.html' %}
+
+{% block title %}References{% endblock %}
+{% block header %}References{% endblock %}
+{% block buttons %}{% include 'main/search.html' with slug="ref" %}{% endblock %}
+
+{% block body %}
+
+<div class="">
+    {% if results %}
+    <div class="list-group">
+        {% for ref in results %}
+        {% include 'refs/ref-listitem.html' with ref=ref %}
+        {% endfor %}
+    </div>
+    {% else %}
+    <p>No references are available.</p>
+    {% endif %}
+</div>
+
+{% include "main/pagination.html" with paged_object=ref_list paging_url_component="refs" %}
+
+<script type="text/javascript">
+ $('#search-btn').click(function() {
+     window.location = "/refs/search/" + $('#search-query').val();
+ });
+</script>
+
+{% endblock %}

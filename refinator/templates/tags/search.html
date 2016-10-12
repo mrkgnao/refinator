@@ -1,16 +1,16 @@
 {% extends 'main/base.html' %}
 {% load markdown_deux_tags %}
 
-{% block title %}Tags{% endblock %}
-{% block header %}Tags{% endblock %}
-{% block buttons %}{% include 'main/search.html' with slug="tag" %}{% endblock %}
+{% block title %}Tag search{% endblock %}
+{% block header %}Tag search{% endblock %}
+{% block buttons %}{% include 'main/search.html' with slug=tag %}{% endblock %}
 
 {% block body %}
 
-<div class="col-md-12">
-    {% if tag_list %}
+<div class="">
+    {% if results %}
     <div class="list-group">
-        {% for tag in tag_list %}
+        {% for tag in results %}
         <a href="{% url 'refinator:tag_detail' tag.id %}" class="list-group-item list-group-item-action">
             <div style="margin-bottom: 5px;"
                  {% include 'tags/tag-pill.html' with tag=tag nolink=True %}

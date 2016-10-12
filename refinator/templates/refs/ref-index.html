@@ -1,22 +1,18 @@
 {% extends 'main/base.html' %}
 
 {% block title %}References{% endblock %}
-{% block header %}References
-<a href="/refs/new/" class="display-3 h1 btn btn-primary">
-    <i class="fa fa-plus" aria-hidden="true"></i>
-    add new
-</a>
-{% endblock %}
+{% block header %}References{% endblock %}
+{% block buttons %}{% include 'main/search.html' with slug="ref" %}{% endblock %}
 
 {% block body %}
 
 {% if first_time %}
 <div class="alert alert-success dismissable fade in" role="alert">
-  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-    <span aria-hidden="true">&times;</span>
-  </button>
-  <h4 class="alert-heading">Hi!</h4>
-  <p class="m-b-1">Looks like it's your first time here. If you're curious what this is, head over to the <a href="/about/" class="alert-link">about page</a>. (Spiffy landing page under construction.)</p>
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+    <h4 class="alert-heading">Hi!</h4>
+    <p class="m-b-1">Looks like it's your first time here. If you're curious what this is, head over to the <a href="/about/" class="alert-link">about page</a>. (Spiffy landing page under construction.)</p>
     <p><a href="/contact/" class="alert-link">Holler in my general direction</a> if there's a feature that needs adding (like search!), or if you find any of the bugs I know I are lurking somewhere in the dynamically typed horrors of my inexpert Python. Thanks!</p>
     <p class="m-b-0">(PS: You can use LaTeX anywhere on this site. For instance, <code>$\int_0^1 f(x) dx$</code> should render as $\int_0^1 f(x) dx$ in your browser.)
 </div>
@@ -40,5 +36,11 @@
 </div>
 
 {% include "main/pagination.html" with paged_object=ref_list paging_url_component="refs" %}
+
+<script type="text/javascript">
+ $('#search-btn').click(function() {
+     window.location = "/refs/search/" + $('#search-query').val();
+ });
+</script>
 
 {% endblock %}

@@ -94,3 +94,11 @@ def ref_edit(request, ref_id=None):
                              'You must log in to add or edit references. ' \
                              '(Maybe you\'d like to <a href="/register/" class="alert-link">sign up</a> instead?)'))
         return redirect('refinator:login')
+
+
+def search(request, query):
+    return render(
+        request,
+        'refs/search.html', {
+            'results': Reference.objects.filter(ref_name__icontains=query)
+        })

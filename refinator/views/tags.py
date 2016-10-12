@@ -58,3 +58,11 @@ def tag_edit(request, tag_id=None):
                              'You must log in to add or edit tags. ' \
                              '(Maybe you\'d like to <a href="/register/" class="alert-link">sign up</a>?)'))
         return redirect('refinator:login')
+
+
+def search(request, query):
+    return render(
+        request,
+        'tags/search.html', {
+            'results': Tag.objects.filter(tag_name__icontains=query)
+        })

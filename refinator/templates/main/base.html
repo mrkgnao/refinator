@@ -56,17 +56,24 @@
 
         <div class="container">
             <br>
-            <div class="h2">
-                {% block header %}
-                {% endblock %}
-            </div>
-            <div class="h3 text-muted">
-                {% block subheader %}
-                {% endblock %}
-            </div>
+            <div class="col-md-12">
+                <div class="col-md-6" >
+                    <div class="h2">
+                        {% block header %}
+                        {% endblock %}
+                    </div>
+                    <div class="h3 text-muted">
+                        {% block subheader %}
+                        {% endblock %}
+                    </div>
+                    <br>
 
-            {% block buttons %}
-            {% endblock %}
+                </div>
+                <div class="col-md-6">
+                    {% block buttons %}
+                    {% endblock %}
+                </div>
+            </div>
 
             <div class="h6">
                 {% block microheader %}

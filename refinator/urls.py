@@ -24,6 +24,12 @@ urlpatterns = [
     url(r'^refs/(?P<ref_id>[0-9]+)/vote/(?P<vote_type>(up|down))/$',
         references.ref_vote,
         name='ref_vote'),
+    url(r'^refs/search/(?P<query>[a-zA-Z0-9]*)/$',
+        references.search,
+        name='ref_search'),
+    #
+    # tags
+    #
     url(r'^tags/new/$', tags.tag_edit, name='tag_create'),
     url(r'^tags/edit/(?P<tag_id>[0-9]+)/$', tags.tag_edit, name='tag_edit'),
     url(r'^tags/$', lambda req: tags.tag_index(req, 1), name='tag_index'),
@@ -31,6 +37,9 @@ urlpatterns = [
         tags.tag_index,
         name='tag_index_paged'),
     url(r'^tags/(?P<tag_id>[0-9]+)/$', tags.tag_detail, name='tag_detail'),
+    url(r'^tags/search/(?P<query>[a-zA-Z0-9]*)/$',
+        tags.search,
+        name='tag_search'),
 
     # Registration
     url(r'^register/$', create_user.register, name='register'),
