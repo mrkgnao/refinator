@@ -56,8 +56,8 @@
 
         <div class="container">
             <br>
-            <div class="col-md-12">
-                <div class="col-md-6" >
+            <div class="p-r-0 p-l-0 col-md-12">
+                <div class="col-md-6">
                     <div class="h2">
                         {% block header %}
                         {% endblock %}
@@ -67,7 +67,6 @@
                         {% endblock %}
                     </div>
                     <br>
-
                 </div>
                 <div class="col-md-6">
                     {% block buttons %}
@@ -100,7 +99,7 @@
                 {% endif %}
                 {% endfor %}
 
-                <div class="body-content">
+                <div class="body-content col-md-12">
                     {% block body %}
                     {% endblock %}
                 </div>

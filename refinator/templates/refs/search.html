@@ -1,7 +1,7 @@
 {% extends 'main/base.html' %}
 
-{% block title %}References{% endblock %}
-{% block header %}References{% endblock %}
+{% block title %}Reference search{% endblock %}
+{% block header %}Reference search{% endblock %}
 {% block buttons %}{% include 'main/search.html' with slug="ref" %}{% endblock %}
 
 {% block body %}
@@ -17,8 +17,6 @@
     <p>No references are available.</p>
     {% endif %}
 </div>
-
-{% include "main/pagination.html" with paged_object=ref_list paging_url_component="refs" %}
 
 <script type="text/javascript">
  $('#search-btn').click(function() {
