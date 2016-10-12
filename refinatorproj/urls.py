@@ -9,5 +9,4 @@ admin.autodiscover()
 urlpatterns = [
     url(r'^', include('refinator.urls')),
     url(r'^admin/', include(admin.site.urls)),
-
 ]

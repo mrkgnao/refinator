@@ -12,17 +12,15 @@ https://docs.djangoproject.com/en/1.8/ref/settings/
 import os
 import dj_database_url
 
-
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
-
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.8/howto/deployment/checklist/
 
 # SECURITY WARNING: change this before deploying to production!
-ON_HEROKU  = True
+ON_HEROKU = True
 
 if 'DJANGO_SECRET_KEY' in os.environ:
     SECRET_KEY = os.environ['DJANGO_SECRET_KEY']
@@ -35,16 +33,14 @@ DEBUG = not ON_HEROKU
 
 # Application definition
 
-INSTALLED_APPS = (
-    'refinator',
-    'django_mathjax',
-    'django.contrib.auth',
-    'django.contrib.admin',
-    'django.contrib.contenttypes',
-    'django.contrib.sessions',
-    'django.contrib.messages',
-    'django.contrib.staticfiles',
-)
+INSTALLED_APPS = ('refinator',
+                  'django_mathjax',
+                  'django.contrib.auth',
+                  'django.contrib.admin',
+                  'django.contrib.contenttypes',
+                  'django.contrib.sessions',
+                  'django.contrib.messages',
+                  'django.contrib.staticfiles', )
 
 MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -54,8 +50,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'django.middleware.security.SecurityMiddleware',
-)
+    'django.middleware.security.SecurityMiddleware', )
 
 ROOT_URLCONF = 'refinatorproj.urls'
 
@@ -64,7 +59,7 @@ TEMPLATES = [
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
             'refinator/templates',
-            ],
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'debug': not ON_HEROKU,
@@ -79,7 +74,6 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'refinatorproj.wsgi.application'
-
 
 # Database
 # https://docs.djangoproject.com/en/1.9/ref/settings/#databases
@@ -96,16 +90,20 @@ DATABASES = {
 
 AUTH_PASSWORD_VALIDATORS = [
     {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
+        'NAME':
+        'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+        'NAME':
+        'django.contrib.auth.password_validation.MinimumLengthValidator',
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
+        'NAME':
+        'django.contrib.auth.password_validation.CommonPasswordValidator',
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
+        'NAME':
+        'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
 
@@ -117,7 +115,6 @@ TIME_ZONE = 'UTC'
 USE_I18N = True
 USE_L10N = True
 USE_TZ = True
-
 
 # Update database configuration with $DATABASE_URL.
 db_from_env = dj_database_url.config(conn_max_age=500)
@@ -136,23 +133,13 @@ STATIC_ROOT = os.path.join(PROJECT_ROOT, 'staticfiles')
 STATIC_URL = '/static/'
 
 # Extra places for collectstatic to find static files.
-STATICFILES_DIRS = (
-    os.path.join(PROJECT_ROOT, 'static'),
-)
+STATICFILES_DIRS = (os.path.join(PROJECT_ROOT, 'static'), )
 
 # Simplified static file serving.
 # https://warehouse.python.org/project/whitenoise/
 STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
 
 MATHJAX_ENABLED = True
-MATHJAX_CONFIG_DATA = {
-  "tex2jax": {
-    "inlineMath":
-      [
-          ['$','$'],
-          ['\\(','\\)']
-      ]
-  }
-}
+MATHJAX_CONFIG_DATA = {"tex2jax": {"inlineMath": [['$', '$'], ['\\(', '\\)']]}}
 
 LOGIN_REDIRECT_URL = '/'

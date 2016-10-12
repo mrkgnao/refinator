@@ -9,14 +9,14 @@ import django.db.models.deletion
 
 class Migration(migrations.Migration):
 
-    dependencies = [
-        ('refinator', '0013_auto_20161009_0348'),
-    ]
+    dependencies = [('refinator', '0013_auto_20161009_0348'), ]
 
     operations = [
         migrations.AlterField(
             model_name='comment',
             name='speaker',
-            field=models.ForeignKey(default=1, on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL),
-        ),
+            field=models.ForeignKey(
+                default=1,
+                on_delete=django.db.models.deletion.CASCADE,
+                to=settings.AUTH_USER_MODEL), ),
     ]

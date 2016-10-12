@@ -9,14 +9,14 @@ import django.db.models.deletion
 
 class Migration(migrations.Migration):
 
-    dependencies = [
-        ('refinator', '0012_reference_added_by'),
-    ]
+    dependencies = [('refinator', '0012_reference_added_by'), ]
 
     operations = [
         migrations.AlterField(
             model_name='reference',
             name='added_by',
-            field=models.ForeignKey(default=1, on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL),
-        ),
+            field=models.ForeignKey(
+                default=1,
+                on_delete=django.db.models.deletion.CASCADE,
+                to=settings.AUTH_USER_MODEL), ),
     ]

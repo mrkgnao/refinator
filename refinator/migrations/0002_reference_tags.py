@@ -7,14 +7,11 @@ from django.db import migrations, models
 
 class Migration(migrations.Migration):
 
-    dependencies = [
-        ('refinator', '0001_initial'),
-    ]
+    dependencies = [('refinator', '0001_initial'), ]
 
     operations = [
         migrations.AddField(
             model_name='reference',
             name='tags',
-            field=models.ManyToManyField(to='refinator.RefTag'),
-        ),
+            field=models.ManyToManyField(to='refinator.RefTag'), ),
     ]

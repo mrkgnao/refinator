@@ -7,13 +7,10 @@ from django.db import migrations
 
 class Migration(migrations.Migration):
 
-    dependencies = [
-        ('refinator', '0016_referencevote_vote_amount'),
-    ]
+    dependencies = [('refinator', '0016_referencevote_vote_amount'), ]
 
     operations = [
         migrations.RemoveField(
             model_name='referencevote',
-            name='text',
-        ),
+            name='text', ),
     ]

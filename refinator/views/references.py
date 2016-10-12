@@ -25,7 +25,6 @@ def ref_index(request, page_no):
         context['first_time'] = True
         request.session['first_time'] = False
 
-
     return render(request, 'refs/ref-index.html', context)
 
 
@@ -83,11 +82,13 @@ def ref_edit(request, ref_id=None):
                 form.save_m2m()
                 messages.add_message(request, messages.SUCCESS,
                                      "Thanks for your contribution!")
-                return redirect(
-                    'refinator:ref_detail', ref_id=ref.id)
+                return redirect('refinator:ref_detail', ref_id=ref.id)
         else:
             form = ReferenceForm(instance=ref)
-        return render(request, 'refs/ref-new.html', {'edit': edit, 'form': form})
+        return render(request, 'refs/ref-new.html', {
+            'edit': edit,
+            'form': form
+        })
     else:
         messages.add_message(request, messages.ERROR, mark_safe(
                              'You must log in to add or edit references. ' \

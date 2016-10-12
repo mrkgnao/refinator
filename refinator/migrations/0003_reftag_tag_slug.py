@@ -7,15 +7,13 @@ from django.db import migrations, models
 
 class Migration(migrations.Migration):
 
-    dependencies = [
-        ('refinator', '0002_reference_tags'),
-    ]
+    dependencies = [('refinator', '0002_reference_tags'), ]
 
     operations = [
         migrations.AddField(
             model_name='reftag',
             name='tag_slug',
-            field=models.CharField(default='kek', max_length=100),
-            preserve_default=False,
-        ),
+            field=models.CharField(
+                default='kek', max_length=100),
+            preserve_default=False, ),
     ]

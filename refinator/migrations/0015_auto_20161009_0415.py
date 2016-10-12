@@ -18,22 +18,28 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='ReferenceVote',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('text', models.CharField(default='', max_length=5000)),
-            ],
-        ),
+                ('id', models.AutoField(
+                    auto_created=True,
+                    primary_key=True,
+                    serialize=False,
+                    verbose_name='ID')),
+                ('text', models.CharField(
+                    default='', max_length=5000)),
+            ], ),
         migrations.RemoveField(
             model_name='reference',
-            name='votes',
-        ),
+            name='votes', ),
         migrations.AddField(
             model_name='referencevote',
             name='ref',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='refinator.Reference'),
-        ),
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE,
+                to='refinator.Reference'), ),
         migrations.AddField(
             model_name='referencevote',
             name='user',
-            field=models.ForeignKey(default=1, on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL),
-        ),
+            field=models.ForeignKey(
+                default=1,
+                on_delete=django.db.models.deletion.CASCADE,
+                to=settings.AUTH_USER_MODEL), ),
     ]

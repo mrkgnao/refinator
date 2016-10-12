@@ -7,15 +7,12 @@ from django.db import migrations, models
 
 class Migration(migrations.Migration):
 
-    dependencies = [
-        ('refinator', '0015_auto_20161009_0415'),
-    ]
+    dependencies = [('refinator', '0015_auto_20161009_0415'), ]
 
     operations = [
         migrations.AddField(
             model_name='referencevote',
             name='vote_amount',
             field=models.IntegerField(default=0),
-            preserve_default=False,
-        ),
+            preserve_default=False, ),
     ]

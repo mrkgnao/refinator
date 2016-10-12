@@ -18,61 +18,114 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='HistoricalComment',
             fields=[
-                ('id', models.IntegerField(auto_created=True, blank=True, db_index=True, verbose_name='ID')),
+                ('id', models.IntegerField(
+                    auto_created=True,
+                    blank=True,
+                    db_index=True,
+                    verbose_name='ID')),
                 ('comment_text', models.TextField()),
-                ('created_date', models.DateTimeField(blank=True, editable=False)),
-                ('history_id', models.AutoField(primary_key=True, serialize=False)),
+                ('created_date', models.DateTimeField(
+                    blank=True, editable=False)),
+                ('history_id', models.AutoField(
+                    primary_key=True, serialize=False)),
                 ('history_date', models.DateTimeField()),
-                ('history_type', models.CharField(choices=[('+', 'Created'), ('~', 'Changed'), ('-', 'Deleted')], max_length=1)),
-                ('history_user', models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='+', to=settings.AUTH_USER_MODEL)),
-                ('reference', models.ForeignKey(blank=True, db_constraint=False, null=True, on_delete=django.db.models.deletion.DO_NOTHING, related_name='+', to='refinator.Reference')),
-                ('speaker', models.ForeignKey(blank=True, db_constraint=False, null=True, on_delete=django.db.models.deletion.DO_NOTHING, related_name='+', to=settings.AUTH_USER_MODEL)),
+                ('history_type', models.CharField(
+                    choices=[('+', 'Created'), ('~', 'Changed'), ('-',
+                                                                  'Deleted')],
+                    max_length=1)),
+                ('history_user', models.ForeignKey(
+                    null=True,
+                    on_delete=django.db.models.deletion.SET_NULL,
+                    related_name='+',
+                    to=settings.AUTH_USER_MODEL)),
+                ('reference', models.ForeignKey(
+                    blank=True,
+                    db_constraint=False,
+                    null=True,
+                    on_delete=django.db.models.deletion.DO_NOTHING,
+                    related_name='+',
+                    to='refinator.Reference')),
+                ('speaker', models.ForeignKey(
+                    blank=True,
+                    db_constraint=False,
+                    null=True,
+                    on_delete=django.db.models.deletion.DO_NOTHING,
+                    related_name='+',
+                    to=settings.AUTH_USER_MODEL)),
             ],
             options={
                 'ordering': ('-history_date', '-history_id'),
                 'verbose_name': 'historical comment',
                 'get_latest_by': 'history_date',
-            },
-        ),
+            }, ),
         migrations.CreateModel(
             name='HistoricalReference',
             fields=[
-                ('id', models.IntegerField(auto_created=True, blank=True, db_index=True, verbose_name='ID')),
+                ('id', models.IntegerField(
+                    auto_created=True,
+                    blank=True,
+                    db_index=True,
+                    verbose_name='ID')),
                 ('ref_name', models.CharField(max_length=200)),
                 ('url', models.CharField(max_length=200)),
                 ('filetype', models.CharField(max_length=20)),
                 ('size', models.IntegerField(default=0)),
                 ('author', models.CharField(max_length=20)),
-                ('added_date', models.DateField(blank=True, editable=False)),
+                ('added_date', models.DateField(
+                    blank=True, editable=False)),
                 ('desc', models.TextField(default='')),
-                ('history_id', models.AutoField(primary_key=True, serialize=False)),
+                ('history_id', models.AutoField(
+                    primary_key=True, serialize=False)),
                 ('history_date', models.DateTimeField()),
-                ('history_type', models.CharField(choices=[('+', 'Created'), ('~', 'Changed'), ('-', 'Deleted')], max_length=1)),
-                ('added_by', models.ForeignKey(blank=True, db_constraint=False, null=True, on_delete=django.db.models.deletion.DO_NOTHING, related_name='+', to=settings.AUTH_USER_MODEL)),
-                ('history_user', models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='+', to=settings.AUTH_USER_MODEL)),
+                ('history_type', models.CharField(
+                    choices=[('+', 'Created'), ('~', 'Changed'), ('-',
+                                                                  'Deleted')],
+                    max_length=1)),
+                ('added_by', models.ForeignKey(
+                    blank=True,
+                    db_constraint=False,
+                    null=True,
+                    on_delete=django.db.models.deletion.DO_NOTHING,
+                    related_name='+',
+                    to=settings.AUTH_USER_MODEL)),
+                ('history_user', models.ForeignKey(
+                    null=True,
+                    on_delete=django.db.models.deletion.SET_NULL,
+                    related_name='+',
+                    to=settings.AUTH_USER_MODEL)),
             ],
             options={
                 'ordering': ('-history_date', '-history_id'),
                 'verbose_name': 'historical reference',
                 'get_latest_by': 'history_date',
-            },
-        ),
+            }, ),
         migrations.CreateModel(
             name='HistoricalTag',
             fields=[
-                ('id', models.IntegerField(auto_created=True, blank=True, db_index=True, verbose_name='ID')),
+                ('id', models.IntegerField(
+                    auto_created=True,
+                    blank=True,
+                    db_index=True,
+                    verbose_name='ID')),
                 ('tag_name', models.CharField(max_length=100)),
                 ('tag_slug', models.CharField(max_length=100)),
                 ('desc', models.TextField()),
-                ('history_id', models.AutoField(primary_key=True, serialize=False)),
+                ('history_id', models.AutoField(
+                    primary_key=True, serialize=False)),
                 ('history_date', models.DateTimeField()),
-                ('history_type', models.CharField(choices=[('+', 'Created'), ('~', 'Changed'), ('-', 'Deleted')], max_length=1)),
-                ('history_user', models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='+', to=settings.AUTH_USER_MODEL)),
+                ('history_type', models.CharField(
+                    choices=[('+', 'Created'), ('~', 'Changed'), ('-',
+                                                                  'Deleted')],
+                    max_length=1)),
+                ('history_user', models.ForeignKey(
+                    null=True,
+                    on_delete=django.db.models.deletion.SET_NULL,
+                    related_name='+',
+                    to=settings.AUTH_USER_MODEL)),
             ],
             options={
                 'ordering': ('-history_date', '-history_id'),
                 'verbose_name': 'historical tag',
                 'get_latest_by': 'history_date',
-            },
-        ),
+            }, ),
     ]

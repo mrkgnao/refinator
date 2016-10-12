@@ -7,14 +7,12 @@ from django.db import migrations, models
 
 class Migration(migrations.Migration):
 
-    dependencies = [
-        ('refinator', '0006_auto_20161008_0338'),
-    ]
+    dependencies = [('refinator', '0006_auto_20161008_0338'), ]
 
     operations = [
         migrations.AddField(
             model_name='reference',
             name='desc',
-            field=models.CharField(default='', max_length=5000),
-        ),
+            field=models.CharField(
+                default='', max_length=5000), ),
     ]

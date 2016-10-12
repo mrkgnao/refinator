@@ -7,36 +7,40 @@ from django.db import migrations, models
 
 class Migration(migrations.Migration):
 
-    dependencies = [
-        ('refinator', '0005_auto_20161008_0325'),
-    ]
+    dependencies = [('refinator', '0005_auto_20161008_0325'), ]
 
     operations = [
         migrations.RemoveField(
             model_name='reference',
-            name='followups',
-        ),
+            name='followups', ),
         migrations.AddField(
             model_name='reference',
             name='followups',
-            field=models.ManyToManyField(blank=True, null=True, related_name='_reference_followups_+', to='refinator.Reference'),
-        ),
+            field=models.ManyToManyField(
+                blank=True,
+                null=True,
+                related_name='_reference_followups_+',
+                to='refinator.Reference'), ),
         migrations.RemoveField(
             model_name='reference',
-            name='prereqs',
-        ),
+            name='prereqs', ),
         migrations.AddField(
             model_name='reference',
             name='prereqs',
-            field=models.ManyToManyField(blank=True, null=True, related_name='_reference_prereqs_+', to='refinator.Reference'),
-        ),
+            field=models.ManyToManyField(
+                blank=True,
+                null=True,
+                related_name='_reference_prereqs_+',
+                to='refinator.Reference'), ),
         migrations.RemoveField(
             model_name='reference',
-            name='read_with',
-        ),
+            name='read_with', ),
         migrations.AddField(
             model_name='reference',
             name='read_with',
-            field=models.ManyToManyField(blank=True, null=True, related_name='_reference_read_with_+', to='refinator.Reference'),
-        ),
+            field=models.ManyToManyField(
+                blank=True,
+                null=True,
+                related_name='_reference_read_with_+',
+                to='refinator.Reference'), ),
     ]

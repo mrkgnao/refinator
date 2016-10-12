@@ -7,6 +7,7 @@ from django.contrib import messages
 
 from refinator.models import Reference, Comment, Tag, TagForm
 
+
 def tag_index(request, page_no):
     tag_list = Tag.objects.order_by("tag_name")
     paginator = Paginator(tag_list, 10)
@@ -20,6 +21,7 @@ def tag_index(request, page_no):
 
     context = {'tag_list': tags}
     return render(request, 'tags/tag-index.html', context)
+
 
 def tag_detail(request, tag_id):
     tag = get_object_or_404(Tag, pk=tag_id)
@@ -44,11 +46,13 @@ def tag_edit(request, tag_id=None):
                 tag.save()
                 messages.add_message(request, messages.SUCCESS,
                                      "Thanks for your contribution!")
-                return redirect(
-                    'refinator:tag_detail', tag_id=tag.id)
+                return redirect('refinator:tag_detail', tag_id=tag.id)
         else:
             form = TagForm(instance=tag)
-        return render(request, 'tags/tag-new.html', {'edit': edit, 'form': form})
+        return render(request, 'tags/tag-new.html', {
+            'edit': edit,
+            'form': form
+        })
     else:
         messages.add_message(request, messages.ERROR, mark_safe(
                              'You must log in to add or edit tags. ' \

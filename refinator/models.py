@@ -28,6 +28,7 @@ class Tag(models.Model):
     class Meta:
         ordering = ("tag_slug", )
 
+
 class TagForm(ModelForm):
     class Meta:
         model = Tag
@@ -60,6 +61,7 @@ class TagForm(ModelForm):
 
         for k in nicenames.keys():
             self.fields[k].label = nicenames[k]
+
 
 class Reference(models.Model):
     ref_name = models.CharField(max_length=200)
@@ -96,7 +98,10 @@ class Reference(models.Model):
 
     def get_and_save_size(self):
         try:
-            r = requests.head(self.url, headers={'Accept-Encoding': 'identity'})
+            r = requests.head(
+                self.url, headers={
+                    'Accept-Encoding': 'identity'
+                })
             self.size = int(r.headers['content-length'])
         except requests.exceptions.ConnectionError:
             self.size = 0
@@ -119,15 +124,8 @@ class ReferenceForm(ModelForm):
     class Meta:
         model = Reference
         fields = [
-            'ref_name',
-            'author',
-            'desc',
-            'tags',
-            'url',
-            'filetype',
-            'prereqs',
-            'read_with',
-            'followups'
+            'ref_name', 'author', 'desc', 'tags', 'url', 'filetype', 'prereqs',
+            'read_with', 'followups'
         ]
 
     def __init__(self, *args, **kwargs):

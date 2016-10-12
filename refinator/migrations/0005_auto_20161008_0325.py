@@ -8,24 +8,34 @@ import django.db.models.deletion
 
 class Migration(migrations.Migration):
 
-    dependencies = [
-        ('refinator', '0004_auto_20161008_0028'),
-    ]
+    dependencies = [('refinator', '0004_auto_20161008_0028'), ]
 
     operations = [
         migrations.AddField(
             model_name='reference',
             name='followups',
-            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, related_name='followup_for', to='refinator.Reference'),
-        ),
+            field=models.ForeignKey(
+                blank=True,
+                null=True,
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name='followup_for',
+                to='refinator.Reference'), ),
         migrations.AddField(
             model_name='reference',
             name='prereqs',
-            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, related_name='prereq_for', to='refinator.Reference'),
-        ),
+            field=models.ForeignKey(
+                blank=True,
+                null=True,
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name='prereq_for',
+                to='refinator.Reference'), ),
         migrations.AddField(
             model_name='reference',
             name='read_with',
-            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, related_name='read_with_for', to='refinator.Reference'),
-        ),
+            field=models.ForeignKey(
+                blank=True,
+                null=True,
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name='read_with_for',
+                to='refinator.Reference'), ),
     ]

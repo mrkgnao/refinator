@@ -19,12 +19,14 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='tag',
             name='added_by',
-            field=models.ForeignKey(default=1, on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL),
-        ),
+            field=models.ForeignKey(
+                default=1,
+                on_delete=django.db.models.deletion.CASCADE,
+                to=settings.AUTH_USER_MODEL), ),
         migrations.AddField(
             model_name='tag',
             name='added_date',
-            field=models.DateField(auto_now_add=True, default=django.utils.timezone.now),
-            preserve_default=False,
-        ),
+            field=models.DateField(
+                auto_now_add=True, default=django.utils.timezone.now),
+            preserve_default=False, ),
     ]

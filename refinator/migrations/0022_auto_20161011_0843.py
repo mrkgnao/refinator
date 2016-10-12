@@ -8,41 +8,33 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('refinator', '0021_historicalcomment_historicalreference_historicaltag'),
+        ('refinator',
+         '0021_historicalcomment_historicalreference_historicaltag'),
     ]
 
     operations = [
         migrations.RemoveField(
             model_name='historicalcomment',
-            name='history_user',
-        ),
+            name='history_user', ),
         migrations.RemoveField(
             model_name='historicalcomment',
-            name='reference',
-        ),
+            name='reference', ),
         migrations.RemoveField(
             model_name='historicalcomment',
-            name='speaker',
-        ),
+            name='speaker', ),
         migrations.RemoveField(
             model_name='historicalreference',
-            name='added_by',
-        ),
+            name='added_by', ),
         migrations.RemoveField(
             model_name='historicalreference',
-            name='history_user',
-        ),
+            name='history_user', ),
         migrations.RemoveField(
             model_name='historicaltag',
-            name='history_user',
-        ),
+            name='history_user', ),
         migrations.DeleteModel(
-            name='HistoricalComment',
-        ),
+            name='HistoricalComment', ),
         migrations.DeleteModel(
-            name='HistoricalReference',
-        ),
+            name='HistoricalReference', ),
         migrations.DeleteModel(
-            name='HistoricalTag',
-        ),
+            name='HistoricalTag', ),
     ]

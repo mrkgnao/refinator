@@ -7,24 +7,28 @@ from django.db import migrations, models
 
 class Migration(migrations.Migration):
 
-    dependencies = [
-        ('refinator', '0018_auto_20161011_0718'),
-    ]
+    dependencies = [('refinator', '0018_auto_20161011_0718'), ]
 
     operations = [
         migrations.AddField(
             model_name='reference',
             name='followups',
-            field=models.ManyToManyField(blank=True, related_name='followup_for', to='refinator.Reference'),
-        ),
+            field=models.ManyToManyField(
+                blank=True,
+                related_name='followup_for',
+                to='refinator.Reference'), ),
         migrations.AddField(
             model_name='reference',
             name='prereqs',
-            field=models.ManyToManyField(blank=True, related_name='prereq_for', to='refinator.Reference'),
-        ),
+            field=models.ManyToManyField(
+                blank=True,
+                related_name='prereq_for',
+                to='refinator.Reference'), ),
         migrations.AddField(
             model_name='reference',
             name='read_with',
-            field=models.ManyToManyField(blank=True, related_name='read_with_for', to='refinator.Reference'),
-        ),
+            field=models.ManyToManyField(
+                blank=True,
+                related_name='read_with_for',
+                to='refinator.Reference'), ),
     ]

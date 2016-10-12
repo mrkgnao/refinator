@@ -7,13 +7,10 @@ from django.db import migrations
 
 class Migration(migrations.Migration):
 
-    dependencies = [
-        ('refinator', '0003_reftag_tag_slug'),
-    ]
+    dependencies = [('refinator', '0003_reftag_tag_slug'), ]
 
     operations = [
         migrations.RenameModel(
             old_name='RefTag',
-            new_name='Tag',
-        ),
+            new_name='Tag', ),
     ]

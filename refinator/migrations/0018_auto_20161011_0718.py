@@ -7,25 +7,21 @@ from django.db import migrations
 
 class Migration(migrations.Migration):
 
-    dependencies = [
-        ('refinator', '0017_remove_referencevote_text'),
-    ]
+    dependencies = [('refinator', '0017_remove_referencevote_text'), ]
 
     operations = [
         migrations.AlterModelOptions(
             name='tag',
-            options={'ordering': ('tag_slug',)},
-        ),
+            options={
+                'ordering': ('tag_slug', )
+            }, ),
         migrations.RemoveField(
             model_name='reference',
-            name='followups',
-        ),
+            name='followups', ),
         migrations.RemoveField(
             model_name='reference',
-            name='prereqs',
-        ),
+            name='prereqs', ),
         migrations.RemoveField(
             model_name='reference',
-            name='read_with',
-        ),
+            name='read_with', ),
     ]

@@ -27,5 +27,6 @@ def register(request):
 
 
 def registration_complete(request):
-    messages.add_message(request, messages.SUCCESS, "You can login now with your credentials.")
+    messages.add_message(request, messages.SUCCESS,
+                         "You can login now with your credentials.")
     return redirect(reverse('refinator:login'))

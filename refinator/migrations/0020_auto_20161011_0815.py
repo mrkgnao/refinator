@@ -7,24 +7,19 @@ from django.db import migrations, models
 
 class Migration(migrations.Migration):
 
-    dependencies = [
-        ('refinator', '0019_auto_20161011_0718'),
-    ]
+    dependencies = [('refinator', '0019_auto_20161011_0718'), ]
 
     operations = [
         migrations.AlterField(
             model_name='comment',
             name='comment_text',
-            field=models.TextField(),
-        ),
+            field=models.TextField(), ),
         migrations.AlterField(
             model_name='reference',
             name='desc',
-            field=models.TextField(default=''),
-        ),
+            field=models.TextField(default=''), ),
         migrations.AlterField(
             model_name='tag',
             name='desc',
-            field=models.TextField(),
-        ),
+            field=models.TextField(), ),
     ]
