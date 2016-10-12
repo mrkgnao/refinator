@@ -22,11 +22,16 @@ PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
 # See https://docs.djangoproject.com/en/1.8/howto/deployment/checklist/
 
 # SECURITY WARNING: change this before deploying to production!
-SECRET_KEY = os.environ['DJANGO_SECRET_KEY']
+ON_HEROKU  = True
+
+if 'DJANGO_SECRET_KEY' in os.environ:
+    SECRET_KEY = os.environ['DJANGO_SECRET_KEY']
+else:
+    SECRET_KEY = "defc8m6#s*1b4mp*s*)6ng0s^y8_fg)ip6yg@)_up*u55hq1*p#f6abc"
+    ON_HEROKU = False
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
-
+DEBUG = not ON_HEROKU
 
 # Application definition
 
@@ -62,7 +67,7 @@ TEMPLATES = [
             ],
         'APP_DIRS': True,
         'OPTIONS': {
-            'debug': False,
+            'debug': not ON_HEROKU,
             'context_processors': [
                 'django.template.context_processors.debug',
                 'django.template.context_processors.request',
