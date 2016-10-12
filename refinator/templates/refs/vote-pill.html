@@ -1,0 +1,3 @@
+<span class="btn tag tag-{% if ref.votes > 0 %}success{% elif ref.votes == 0 %}warning{% else %}danger{% endif %}">
+    {{ ref.votes }} {% if ref.votes == 1 %}vote{% else %}votes{% endif %}
+</span>

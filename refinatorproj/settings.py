@@ -35,6 +35,7 @@ DEBUG = not ON_HEROKU
 
 INSTALLED_APPS = ('refinator',
                   'django_mathjax',
+                  'markdown_deux',
                   'django.contrib.auth',
                   'django.contrib.admin',
                   'django.contrib.contenttypes',
