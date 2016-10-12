@@ -40,3 +40,11 @@ th.padded-lg {
 .nonclickable {
     pointer-events: none;
 }
+
+.m-t-half {
+    margin-top: 0.5rem!important;
+}
+
+.m-b-half {
+    margin-bottom: 0.5rem!important;
+}

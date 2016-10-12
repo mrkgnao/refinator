@@ -1,10 +1,15 @@
 decorator==4.0.10
 dj-database-url==0.4.0
 Django==1.10.2
+django-braces==1.9.0
+django-markdown-deux==1.0.5
 django-mathjax==0.0.5
+django-oauth-toolkit==0.10.0
 gunicorn==19.4.5
 ipython==5.1.0
 ipython-genutils==0.1.0
+markdown2==2.3.1
+oauthlib==1.0.3
 pexpect==4.2.1
 pickleshare==0.7.4
 prompt-toolkit==1.0.7
