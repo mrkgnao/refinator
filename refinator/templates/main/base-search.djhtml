@@ -1,0 +1,39 @@
+{% extends 'main/base.djhtml' %}
+
+{% block title %}{{ fullname }} search{% endblock %}
+{% block header %}{{ fullname }} search{% endblock %}
+{% block buttons %}{% include 'main/search.djhtml' with slug=slug %}{% endblock %}
+
+{% block body %}
+
+    <div class="list-group">
+        {% if total_count > 0 %}
+            {% for r in results %}
+                {% if slug == "tag" %}
+                    {% include 'tags/tag-listitem.djhtml' with tag=r %}
+                {% elif slug == "ref" %}
+                    {% include 'refs/ref-listitem.djhtml' with ref=r %}
+                {% endif %}
+            {% endfor %}
+        {% else %}
+            {% if slug == "tag" %}
+                {% include 'tags/tag-listitem.djhtml' with none_found=True %}
+            {% elif slug == "ref" %}
+                {% include 'refs/ref-listitem.djhtml' with none_found=True %}
+            {% endif %}
+        {% endif %}
+    </div>
+    {% include 'main/pagination.djhtml' with paged_object=results paging_url_component=slug %}
+
+    <script type="text/javascript">
+     $('#search-btn').click(function() {
+         window.location = "/{{ slug }}s/search/" + $('#search-query').val();
+     });
+
+     $("#search-query").keyup(function(event){
+         if(event.keyCode == 13){
+             $("#search-btn").click();
+         }
+     });
+    </script>
+{% endblock %}
