@@ -78,7 +78,7 @@
                 {% endblock %}
             </div>
 
-            <div>
+            <div class="col-md-12">
                 {% for msg in messages %}
                 {% if 'error' in msg.tags %}
                 <div class="alert alert-danger alert-dismissable fade in" role="alert">
@@ -98,7 +98,7 @@
                 {% endif %}
                 {% endfor %}
 
-                <div class="body-content col-md-12">
+                <div class="body-content">
                     {% block body %}
                     {% endblock %}
                 </div>

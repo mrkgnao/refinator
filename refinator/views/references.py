@@ -21,7 +21,7 @@ def search(request, page_no=1, query=""):
         refs = paginator.page(paginator.num_pages)
 
     context = {
-        'first_time': True,
+        'first_time': False,
         'query': query,
         'results': refs,
         'total_count': paginator.count
