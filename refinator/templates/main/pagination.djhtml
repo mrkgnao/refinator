@@ -1,6 +1,7 @@
 <center>
 
-    <nav aria-label="reference pagination">
+    {% if paged_object.paginator.num_pages > 1 %}
+    <nav id="pagination" aria-label="reference pagination">
         <ul class="pagination">
             {% if paged_object.has_previous %}
             <li class="page-item">
@@ -42,5 +43,5 @@
 
         </ul>
     </nav>
-
+    {% endif %}
 </center>

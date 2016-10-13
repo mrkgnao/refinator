@@ -10,7 +10,7 @@ urlpatterns = [
     url(r'^contact/$', static_pages.contact, name='contact'),
     url(r'^login/$', login, {'template_name': 'registration/login.djhtml'}, name='login'),
     url(r'^logout/$', logout, name='logout'),
-    url(r'^register/$', create_user.register, name='signup'),
+    url(r'^register/$', create_user.register, name='register'),
 
     #
     # refs
@@ -58,4 +58,7 @@ urlpatterns = [
     url(r'^tags/search/(?P<query>[a-zA-Z0-9]*)/$', tags.search),
     url(r'^tags/search/(?P<query>[a-zA-Z0-9]*)/page/(?P<page_no>[0-9]+)/$',
         tags.search),
+    url(r'^tags/(?P<tag_id>[0-9]+)/$',
+        tags.detail,
+        name='tag_detail'),
 ]

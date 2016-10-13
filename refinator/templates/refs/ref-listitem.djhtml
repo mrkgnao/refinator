@@ -1,7 +1,7 @@
 {% load markdown_deux_tags %}
 <li class="ref-listitem list-group-item list-group-item-action col-md-12" style="padding-top: 1rem; padding-bottom: 0rem; padding-left: 0rem; padding-right:0rem;">
     {% if none_found %}
-        <div class="col-md-12 p-b-0">
+        <div class="col-md-12 p-b-1">
             {% if tag %}
                 <h5 class="list-group-item-heading">No references were found for the tag {% include 'tags/tag-pill.djhtml' with tag=tag %}.</h5>
                 <div class="list-group-item-text text-muted">
@@ -13,7 +13,6 @@
                     Maybe you'd like to <a href="{% url 'refinator:ref_create' %}">add one</a>?
                 </div>
             {% endif %}
-            <br>
         </div>
     {% else %}
         <div class="m-b-half col-md-5">

@@ -6,20 +6,27 @@
 
 {% block body %}
 
-    <div class="">
-        {% if results.count > 0 %}
-            <div class="list-group">
-                {% for tag in results %}
-                    {% include 'tags/tag-listitem.djhtml' with tag=tag %}
-                {% endfor %}
-            </div>
+    <div class="list-group">
+        {% if total_count > 0 %}
+            {% for t in results %}
+                {% include 'tags/tag-listitem.djhtml' with tag=t %}
+            {% endfor %}
         {% else %}
             {% include 'tags/tag-listitem.djhtml' with none_found=True %}
         {% endif %}
     </div>
+
+    {% include 'main/pagination.djhtml' with paged_object=results paging_url_component="tags" %}
+
     <script type="text/javascript">
      $('#search-btn').click(function() {
          window.location = "/tags/search/" + $('#search-query').val();
+     });
+
+     $("#search-query").keyup(function(event){
+         if(event.keyCode == 13){
+             $("#search-btn").click();
+         }
      });
     </script>
 {% endblock %}

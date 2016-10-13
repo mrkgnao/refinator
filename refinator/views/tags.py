@@ -9,22 +9,24 @@ from refinator.models import Reference, Comment, Tag, TagForm
 
 
 def search(request, page_no=1, query=""):
-    tag_list = Tag.objects.filter(tag_name__icontains=query),
+    tag_list = Tag.objects.filter(tag_name__icontains=query)
     paginator = Paginator(tag_list, 10)
+
+    tags = None
 
     try:
         tags = paginator.page(page_no)
     except PageNotAnInteger:
         tags = paginator.page(1)
     except EmptyPage:
-        regs = paginator.page(paginator.num_pages)
+        tags = paginator.page(paginator.num_pages)
 
-    context = {'results': tags}
+    context = {'results': tags, 'query': query, 'total_count': paginator.count}
 
     return render(request, 'tags/search.djhtml', context)
 
 
-def tag_detail(request, tag_id):
+def detail(request, tag_id):
     tag = get_object_or_404(Tag, pk=tag_id)
     return render(request, 'tags/tag-detail.djhtml', {'tag': tag})
 

@@ -3,16 +3,18 @@
 {% if none_found %}
 
     <span class="list-group-item list-group-item-action">
-        <p>No tags are available. Would you like to <a href="{% url 'refinator:tag_create' %}">add one</a>?</p>
+
+        <h5 class="list-group-item-heading">No tags found.</h5>
+                <div class="list-group-item-text text-muted">
+                    Maybe you'd like to <a href="{% url 'refinator:tag_create' %}">add one</a>?
+                </div>
     </span>
 
 {% else %}
-
-    <a href="{% url 'refinator:tag_detail' tag.id %}" class="list-group-item list-group-item-action">
+    <a href="{% url 'refinator:tag_detail' tag.id %}" class="p-b-0 list-group-item list-group-item-action">
         <div style="margin-bottom: 5px;"
              {% include 'tags/tag-pill.djhtml' with tag=tag nolink=True %}
         </div>
-        <br>
         {{ tag.desc|markdown }}
     </a>
 

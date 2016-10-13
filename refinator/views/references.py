@@ -9,19 +9,22 @@ from refinator.models import Reference, Comment, ReferenceVote, ReferenceForm
 
 
 def search(request, page_no=1, query=""):
-    ref_list = Reference.objects.filter(ref_name__icontains=query),
+    ref_list = Reference.objects.filter(ref_name__icontains=query)
     paginator = Paginator(ref_list, 10)
+    refs = None
 
     try:
         refs = paginator.page(page_no)
     except PageNotAnInteger:
         refs = paginator.page(1)
     except EmptyPage:
-        regs = paginator.page(paginator.num_pages)
+        refs = paginator.page(paginator.num_pages)
 
     context = {
-        'first_time': False,
+        'first_time': True,
+        'query': query,
         'results': refs,
+        'total_count': paginator.count
     }
 
     if not request.session.has_key('first_time'):
