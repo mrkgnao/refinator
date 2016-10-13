@@ -1,0 +1,19 @@
+{% load markdown_deux_tags %}
+
+{% if none_found %}
+
+    <span class="list-group-item list-group-item-action">
+        <p>No tags are available. Would you like to <a href="{% url 'refinator:tag_create' %}">add one</a>?</p>
+    </span>
+
+{% else %}
+
+    <a href="{% url 'refinator:tag_detail' tag.id %}" class="list-group-item list-group-item-action">
+        <div style="margin-bottom: 5px;"
+             {% include 'tags/tag-pill.djhtml' with tag=tag nolink=True %}
+        </div>
+        <br>
+        {{ tag.desc|markdown }}
+    </a>
+
+{% endif %}

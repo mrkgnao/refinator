@@ -8,8 +8,8 @@ from django.contrib import messages
 from refinator.models import Reference, Comment, ReferenceVote, ReferenceForm
 
 
-def ref_index(request, page_no):
-    ref_list = Reference.objects.order_by("ref_name")
+def search(request, page_no=1, query=""):
+    ref_list = Reference.objects.filter(ref_name__icontains=query),
     paginator = Paginator(ref_list, 10)
 
     try:
@@ -19,20 +19,23 @@ def ref_index(request, page_no):
     except EmptyPage:
         regs = paginator.page(paginator.num_pages)
 
-    context = {'ref_list': refs, 'first_time': False}
+    context = {
+        'first_time': False,
+        'results': refs,
+    }
 
     if not request.session.has_key('first_time'):
         context['first_time'] = True
         request.session['first_time'] = False
 
-    return render(request, 'refs/ref-index.html', context)
+    return render(request, 'refs/search.djhtml', context)
 
 
-def ref_detail(request, ref_id):
+def ref_detail(request, ref_id=1):
     ref = get_object_or_404(Reference, pk=ref_id)
     has_upvoted = ReferenceVote.user_has_upvoted(request.user, ref)
     has_downvoted = ReferenceVote.user_has_downvoted(request.user, ref)
-    return render(request, 'refs/ref-detail.html', {
+    return render(request, 'refs/ref-detail.djhtml', {
         'ref': ref,
         'has_upvoted': has_upvoted,
         'has_downvoted': has_downvoted,
@@ -85,7 +88,7 @@ def ref_edit(request, ref_id=None):
                 return redirect('refinator:ref_detail', ref_id=ref.id)
         else:
             form = ReferenceForm(instance=ref)
-        return render(request, 'refs/ref-new.html', {
+        return render(request, 'refs/ref-new.djhtml', {
             'edit': edit,
             'form': form
         })
@@ -94,11 +97,3 @@ def ref_edit(request, ref_id=None):
                              'You must log in to add or edit references. ' \
                              '(Maybe you\'d like to <a href="/register/" class="alert-link">sign up</a> instead?)'))
         return redirect('refinator:login')
-
-
-def search(request, query):
-    return render(
-        request,
-        'refs/search.html', {
-            'results': Reference.objects.filter(ref_name__icontains=query)
-        })

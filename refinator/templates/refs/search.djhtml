@@ -1,0 +1,25 @@
+{% extends 'main/base.djhtml' %}
+
+{% block title %}Reference search{% endblock %}
+{% block header %}Reference search{% endblock %}
+{% block buttons %}{% include 'main/search.djhtml' with slug="ref" %}{% endblock %}
+
+{% block body %}
+
+    <div class="list-group">
+        {% if results.count > 0 %}
+            {% for ref in results %}
+                {% include 'refs/ref-listitem.djhtml' with ref=ref %}
+            {% endfor %}
+        {% else %}
+            {% include 'refs/ref-listitem.djhtml' with none_found=True %}
+        {% endif %}
+    </div>
+
+    <script type="text/javascript">
+     $('#search-btn').click(function() {
+         window.location = "/refs/search/" + $('#search-query').val();
+     });
+    </script>
+
+{% endblock %}

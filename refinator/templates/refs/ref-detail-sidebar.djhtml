@@ -20,7 +20,7 @@
             <th>Tags</th>
             <td>
                 {% for tag in ref.tags.iterator %}
-                {% include 'tags/tag-pill.html' %}
+                {% include 'tags/tag-pill.djhtml' %}
                 {% endfor %}
             </td>
         </tr>

@@ -8,8 +8,8 @@ from django.contrib import messages
 from refinator.models import Reference, Comment, Tag, TagForm
 
 
-def tag_index(request, page_no):
-    tag_list = Tag.objects.order_by("tag_name")
+def search(request, page_no=1, query=""):
+    tag_list = Tag.objects.filter(tag_name__icontains=query),
     paginator = Paginator(tag_list, 10)
 
     try:
@@ -19,13 +19,14 @@ def tag_index(request, page_no):
     except EmptyPage:
         regs = paginator.page(paginator.num_pages)
 
-    context = {'tag_list': tags}
-    return render(request, 'tags/tag-index.html', context)
+    context = {'results': tags}
+
+    return render(request, 'tags/search.djhtml', context)
 
 
 def tag_detail(request, tag_id):
     tag = get_object_or_404(Tag, pk=tag_id)
-    return render(request, 'tags/tag-detail.html', {'tag': tag})
+    return render(request, 'tags/tag-detail.djhtml', {'tag': tag})
 
 
 def tag_edit(request, tag_id=None):
@@ -49,7 +50,7 @@ def tag_edit(request, tag_id=None):
                 return redirect('refinator:tag_detail', tag_id=tag.id)
         else:
             form = TagForm(instance=tag)
-        return render(request, 'tags/tag-new.html', {
+        return render(request, 'tags/tag-new.djhtml', {
             'edit': edit,
             'form': form
         })
@@ -58,11 +59,3 @@ def tag_edit(request, tag_id=None):
                              'You must log in to add or edit tags. ' \
                              '(Maybe you\'d like to <a href="/register/" class="alert-link">sign up</a>?)'))
         return redirect('refinator:login')
-
-
-def search(request, query):
-    return render(
-        request,
-        'tags/search.html', {
-            'results': Tag.objects.filter(tag_name__icontains=query)
-        })

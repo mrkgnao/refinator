@@ -49,7 +49,7 @@
     <body>
         <header class="navbar navbar-light navbar-static-top bd-navbar">
             <div class="container">
-                {% include "./nav.html" %}
+                {% include "./nav.djhtml" %}
             </div>
         </header>
 
@@ -57,7 +57,7 @@
         <div class="container">
             <br>
             <div class="p-r-0 p-l-0 col-md-12">
-                <div class="col-md-6">
+                <div class="col-md-5 m-b-1">
                     <div class="h2">
                         {% block header %}
                         {% endblock %}
@@ -66,9 +66,8 @@
                         {% block subheader %}
                         {% endblock %}
                     </div>
-                    <br>
                 </div>
-                <div class="col-md-6">
+                <div class="col-md-7">
                     {% block buttons %}
                     {% endblock %}
                 </div>

@@ -1,4 +1,4 @@
-{% extends "main/base.html" %}
+{% extends "main/base.djhtml" %}
 
 {% block title %}Log in{% endblock %}
 {% block header %}Log in {% endblock %}

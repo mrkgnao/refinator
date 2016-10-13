@@ -1,4 +1,4 @@
-{% extends 'main/base.html' %}
+{% extends 'main/base.djhtml' %}
 {% load app_filters %}
 {% load markdown_deux_tags %}
 
@@ -25,11 +25,11 @@
     {% if tag.reference_set.count > 0 %}
 
     {% for ref in tag.reference_set.iterator %}
-    {% include 'refs/ref-listitem.html' with ref=ref %}
+    {% include 'refs/ref-listitem.djhtml' with ref=ref %}
     {% endfor %}
 
     {% else %}
-    {% include 'refs/ref-listitem.html' with none_found=True tag=tag %}
+    {% include 'refs/ref-listitem.djhtml' with none_found=True tag=tag %}
     {% endif %}
 </div>
 

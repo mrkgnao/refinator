@@ -1,4 +1,4 @@
-{% extends 'main/base.html' %}
+{% extends 'main/base.djhtml' %}
 {% load markdown_deux_tags %}
 
 {% block title %}{{ ref.ref_name }}{% endblock %}
@@ -37,14 +37,14 @@
     <h4>Related books</h4>
 
     <div id="related-books-table">
-        {% include 'refs/ref-detail-related-books.html' %}
+        {% include 'refs/ref-detail-related-books.djhtml' %}
     </div>
 
 
 </div>
 
 <div class="col-md-4">
-    {% include 'refs/ref-detail-sidebar.html' %}
+    {% include 'refs/ref-detail-sidebar.djhtml' %}
 </div>
 
 <div class="col-md-8"></div>

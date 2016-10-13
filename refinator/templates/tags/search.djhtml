@@ -1,0 +1,25 @@
+{% extends 'main/base.djhtml' %}
+
+{% block title %}Tag search{% endblock %}
+{% block header %}Tag search{% endblock %}
+{% block buttons %}{% include 'main/search.djhtml' with slug="tag" %}{% endblock %}
+
+{% block body %}
+
+    <div class="">
+        {% if results.count > 0 %}
+            <div class="list-group">
+                {% for tag in results %}
+                    {% include 'tags/tag-listitem.djhtml' with tag=tag %}
+                {% endfor %}
+            </div>
+        {% else %}
+            {% include 'tags/tag-listitem.djhtml' with none_found=True %}
+        {% endif %}
+    </div>
+    <script type="text/javascript">
+     $('#search-btn').click(function() {
+         window.location = "/tags/search/" + $('#search-query').val();
+     });
+    </script>
+{% endblock %}
