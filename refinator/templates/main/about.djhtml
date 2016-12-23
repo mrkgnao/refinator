@@ -5,20 +5,25 @@
 {% block subheader %}(and me){% endblock %}
 
 {% block body %}
-<br>
+    <br>
 
-<p>
-    This project aims to make the pdfs of lecture notes and book drafts scattered all over the internet at random <code>college.edu/~prof/whatever</code> URLs easier to find and recommend to others. I've often encountered instances when some random page of lecture notes from the 4th (!) page of Google search results turned up some insight that the main textbook I'd been studying skipped over. Often, the only way I had of finding them again was going back to my browser history. I thought it'd be nice if, you know, you could actually find thigs somewhat more systematically. (And there went a week.)
-    Per Heroku logs, I started making this site on the 7th of October.
-</p>
+    <p>
+        This project aims to make the pdfs of lecture notes and book drafts scattered all over the internet at random <code>college.edu/~prof/whatever</code> URLs easier to find and recommend to others. I've often encountered instances when some random page of lecture notes from the 4th (!) page of Google search results turned up some insight that the main textbook I'd been studying skipped over. Often, the only way I had of finding them again was going back to my browser history. I thought it'd be nice if, you know, you could actually find things somewhat more systematically. (And there went a week.)
+    </p>
 
-<h5>And who are <i>you</i>?</h5>
-<p>I'll just copy from my <a href="https://mrkgnao.github.io/">math blog</a> here. Here's my tried-and-tested one-line intro:</p>
+    <p>
+        Per Heroku logs, I started making this site on the 7th of October.
+    </p>
 
-<blockquote class="blockquote" >
-    Soham, 17, Kolkata, interested in arithmetic geometry, algebraic geometry, algebraic topology, jazz, Bach, Haskell, Márquez, salsa, and ... stuff.
-</blockquote>
+    <h5>And who are <i>you</i>?</h5>
+    <p>I'll just copy from my <a href="https://mrkgnao.github.io/">math blog</a> here. Here's my tried-and-tested one-line intro:</p>
 
-If you'd like to talk, my email is <code>chow.soham AT gmail</code>.
+    <blockquote class="blockquote" >
+        Soham, 17, Kolkata, interested in arithmetic geometry, algebraic geometry, algebraic topology, jazz, Bach, Haskell, Márquez, salsa, and ... stuff.
+    </blockquote>
+
+    If you find bugs, the best place to report them is the <a href="https://github.com/mrkgnao/refinator/issues/">issue tracker</a> on the GitHub repository where all the code for this website is stored.
+
+    If you'd like to talk, my email is <code>chow.soham AT gmail</code>.
 
 {% endblock %}

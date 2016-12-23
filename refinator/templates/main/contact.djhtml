@@ -6,6 +6,5 @@
 {% block body %}
 <br>
 
-If you find bugs, the best place to report them is the <a href="https://github.com/mrkgnao/refinator/issues/">issue tracker</a> on the GitHub repository where all the code for this website is stored. You can also shoot an email to chow.soham AT gmail if that's easier.
 
 {% endblock %}

@@ -110,9 +110,7 @@
         <footer class="footer bd-footer text-muted">
             <div class="container">
                 <span class="text-muted">
-                    <a href="/about/">about</a>
-                    <a class="nonclickable text-muted nav-item nav-link" href="#">&middot;</a>
-                    <a href="/contact/">contact</a>
+                    <a href="/about/">about / contact</a>
                     <a class="nonclickable text-muted nav-item nav-link" href="#">&middot;</a>
                     made by <a href="https://github.com/mrkgnao">@mrkgnao</a>
                 </span>
